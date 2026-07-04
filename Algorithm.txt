@@ -1,0 +1,93 @@
+===============================================================================================================
+Table 4: A Pseudo-Code of Newly Developed Variation of Smith-Waterman Algorithm
+Algorithm A: Proposed Phonetics Based Smith Waterman Algorithm For Urdu
+===============================================================================================================
+Input: Roman Urdu String (Atomic or Compound) Output: List of Roman Urdu Strings
+Algorithm Body:
+Read Input String in variable R
+Lookup R in BORUE
+If R found in BORUE
+LS(R) = R
+Break procedure
+End if
+Split R into set of substrings (Using space as delimeter) R=(r_1,r_2,…,r_n)
+Read All Urdu Strings from BORUE in ListT
+Set index counter i to 0
+While i<length of ListT
+Set boolean variable foundMatch to ’false’
+Read ListT(i) in string variable T
+Split T into substrings T = (t_1,t_2,…,t_n) using spaces as delimiters
+set index count j to 0
+set index count k to 0
+While j < n
+While k < m
+Compare roman metaphones of rj and tk
+If RomanMetaphones are equal or Edit Dist (rj,tk) = 0 set foundMatch = true
+End if
+End While
+End While
+If foundMatch Move T to LS(R): Lexical-Suggest-List-for-R
+End if
+End while
+Output: LS(R)
+=============================================================================================================
+
+#############################################################################################################
+
+=============================================================================================================
+Table 5: Semantic Filtering
+Algorithm Aa:
+==============================================================================================================
+Input: List of Roman Urdu Strings LS(R)
+Output: List of Roman Urdu Strings LS’(R)
+
+Algorithm Body:
+Read Semantically similar words of R into ListSS
+For each Element E in LS(R)
+If E in List SS
+Move E in LS’(R)
+End if
+End for
+Output LS’(R)
+===============================================================================================================
+
+###############################################################################################################
+
+===============================================================================================================
+Table 6: A Pseudo-Code to Retrieve Semantically Similar Words for given Query Word, Lexicon
+Algorithm B: Semantic Expansion
+================================================================================================================
+Input: List of Roman Urdu Strings LS’(R)
+Output: List of Roman Urdu Strings SS(R)
+
+Algorithm Body:
+For each word W in LS’(R)
+Read all Synonyms for word W from BORUE:SynOf(W) in list A
+Read all Semantically similar words of W:isSemSimTo(W) in list B
+SS (R) = SS (R) U A U B
+End For
+
+Output: SS(R)
+=================================================================================================================
+
+#################################################################################################################
+
+=================================================================================================================
+Table 7: A Pseudo-Code to Retrieve English Translations and Unicode Urdu of given Word
+Algorithm C: English Translation and Unicode Urdu
+=================================================================================================================
+Input: LS’(R) , SS(R)
+Output:
+ES(R) - List of English translations of LS’(R) and SS(R)
+US(R) - List of Unicode Urdu of LS’(R) and SS(R)
+Algorithm Body:
+Set ES(R), US(R) as empty List
+For each Word W in LS’(R) and SS(R)
+Read English Translations of W from BORUE:isRomanFor(W) in A
+Retrieve Unicode of W from BORUE:isStringValueUniFor (W) in B
+ES(R) = ES(R) U A
+US(R) = US(R) U B
+End For
+
+Output: ES(R) , US(R)
+===================================================================================================================
