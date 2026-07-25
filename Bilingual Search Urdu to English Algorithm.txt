@@ -1,5 +1,4 @@
 ===============================================================================================================
-Table 4: A Pseudo-Code of Newly Developed Variation of Smith-Waterman Algorithm
 Algorithm A: Proposed Phonetics Based Smith Waterman Algorithm For Urdu
 ===============================================================================================================
 Input: Roman Urdu String (Atomic or Compound) Output: List of Roman Urdu Strings
@@ -35,8 +34,7 @@ Output: LS(R)
 #############################################################################################################
 
 =============================================================================================================
-Table 5: Semantic Filtering
-Algorithm Aa:
+Semantic Filtering Algorithm
 ==============================================================================================================
 Input: List of Roman Urdu Strings LS(R)
 Output: List of Roman Urdu Strings LS’(R)
@@ -54,8 +52,7 @@ Output LS’(R)
 ###############################################################################################################
 
 ===============================================================================================================
-Table 6: A Pseudo-Code to Retrieve Semantically Similar Words for given Query Word, Lexicon
-Algorithm B: Semantic Expansion
+Semantic Expansion Algorithm. Pseudo-Code to Retrieve Semantically Similar Words for given Query Word, Lexicon
 ================================================================================================================
 Input: List of Roman Urdu Strings LS’(R)
 Output: List of Roman Urdu Strings SS(R)
@@ -73,8 +70,7 @@ Output: SS(R)
 #################################################################################################################
 
 =================================================================================================================
-Table 7: A Pseudo-Code to Retrieve English Translations and Unicode Urdu of given Word
-Algorithm C: English Translation and Unicode Urdu
+English Translation and Unicode Urdu: Pseudo-Code to Retrieve English Translations and Unicode Urdu of given Word
 =================================================================================================================
 Input: LS’(R) , SS(R)
 Output:
