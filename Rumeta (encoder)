@@ -16,8 +16,7 @@ public class Rumeta {
 	            + " Roman metaphone code = "
 	            + rm.encodeRoman(encodeString));
 	}
-			  
-		  public String encodeRoman(String value)
+			   public String encodeRoman(String value)
 		   {
 			  
 			  value = cleanInput(value);
@@ -41,7 +40,6 @@ public class Rumeta {
 		        	  index = handleAEIOUY(value,index);
 		        break;
 		          case 'B': 
-		        	  //this.encodeString = this.encodeString + 'B';
 		        	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'B') ? this.encodeString : this.encodeString + 'B';
 		        	  
 		        	  index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
@@ -50,17 +48,14 @@ public class Rumeta {
 			    	  handleC(value, index);
 		         break;
 			       case 'D': 
-			    	   //this.encodeString = this.encodeString + 'D' ;
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'D') ? this.encodeString : this.encodeString + 'D';
 			    	   index = charAt(value, index + 1) == 'D' ? index + 2 : index + 1;
 			       break;
 			       case 'F': 
-			    	   //this.encodeString = this.encodeString + 'F';
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'F') ? this.encodeString : this.encodeString + 'F';
+			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'F') ? this.encodeString : this.encodeString + 'F';
 			    	   index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
 			    	   break;
 			       case 'G': 
-			    	   //this.encodeString = this.encodeString + 'G';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'G') ? this.encodeString : this.encodeString + 'G';
 			    	   index = charAt(value, index + 1) == 'G' ? index + 2 : index + 1;
 			        break;
@@ -68,63 +63,48 @@ public class Rumeta {
 			    	   handleH(value,index);
 			    	   break;
 			       case 'J': 
-			    	   //this.encodeString = this.encodeString + 'J';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'J') ? this.encodeString : this.encodeString + 'J';
 			    	   index = charAt(value, index + 1) == 'J' ? index + 2 : index + 1;
 			        break;
 			       case 'K': 
-			    	   //this.encodeString = this.encodeString + 'K';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
 			    	   index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
 			        break;
 			       	case 'L': 
-			       		//this.encodeString = this.encodeString + 'L';
-				        this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'L') ? this.encodeString : this.encodeString + 'L';
+			            this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'L') ? this.encodeString : this.encodeString + 'L';
 			       		index = charAt(value, index + 1) == 'L' ? index + 2 : index + 1;
 				        break;
 			       case 'M': 
-			    	   //this.encodeString = this.encodeString + 'M';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'M') ? this.encodeString : this.encodeString + 'M';
 			    	   index = charAt(value, index + 1) == 'M' ? index + 2 : index + 1;
 			       break;
 			       case 'N': 
-			    	   //this.encodeString = this.encodeString + 'N';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'N') ? this.encodeString : this.encodeString + 'N';
 			    	   index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
 				         break;
 			       case 'P': 
-			    	   //this.encodeString = this.encodeString + 'P';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'P') ? this.encodeString : this.encodeString + 'P'; 
 			    	   index = charAt(value, index + 1) == 'P' ? index + 2 : index + 1;
 			        break;
 			      case 'Q': 
-			    	  //this.encodeString = this.encodeString + 'K';
 			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K'; 
 			    	  index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
 			        break;
 			      case 'R': 
-			    	  //this.encodeString = this.encodeString + 'R';
 			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'R') ? this.encodeString : this.encodeString + 'R';
 			    	  
 				         index = charAt(value, index + 1) == 'R' ? index + 2 : index + 1;
 		        break;
 			      case 'S': 
-			    	  //this.encodeString =this.encodeString + 'S';
 			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'S') ? this.encodeString : this.encodeString + 'S';     
 			    	  index = charAt(value, index + 1) == 'S' ? index + 2 : index + 1;
 			         break;
 			       case 'T': 
-			    	   //this.encodeString = this.encodeString + 'T';
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'T') ? this.encodeString : this.encodeString + 'T'; 
 			    	   index = charAt(value, index + 1) == 'T' ? index + 2 : index + 1;
 			        break;
 			       case 'V': 
-			    	   //this.encodeString = this.encodeString + 'W';
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
-			    	   //index = (charAt(value, index + 1) == 'V' || charAt(value, index + 1) == 'W') ? index + 2 : index + 1;
-			       //  break;
-			      case 'W': 
-			    	  //this.encodeString = this.encodeString + 'W';
+			    	   case 'W': 
 			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
 			    	  index = (charAt(value, index + 1) == 'V' || charAt(value, index + 1) == 'W') ? index + 2 : index + 1;
 			        break;
@@ -134,12 +114,8 @@ public class Rumeta {
 				        index = charAt(value, index + 1) == 'Y' ? index + 2 : index + 1;
 				        break;
 			       case 'X': 
-			    	   //this.encodeString = this.encodeString + 'Z';
-			        //index = (charAt(value, index + 1) == 'X' || charAt(value, index + 1) == 'Z') ? index + 2 : index + 1;
-			       //break;
-			       case 'Z': 
+			    	   case 'Z': 
 			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'Z') ? this.encodeString : this.encodeString + 'Z';
-			    	   //this.encodeString = this.encodeString + 'Z';  
 			    	   index = (charAt(value, index + 1) == 'X' || charAt(value, index + 1) == 'Z') ? index + 2 : index + 1;
 			        break;
 			       default: 
@@ -196,22 +172,15 @@ public class Rumeta {
 				
 			   else // we are either on 2nd character or inside word or at 2nd last. here previous character matters
 			   { 	      
-		           if (charAt(value, i) == 'I' || charAt(value, i) == 'E')
-	                 {
-	   	        	   		this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'I') ? this.encodeString : this.encodeString + 'I';
-	   	        	   		i = (charAt(value, i + 1) == 'I' || charAt(value, i + 1) == 'E') ? i + 2 : i + 1;
-	   	        	   		return i; 
-	                 }
-		           else
 		            if (charAt(value, i) == 'U' || charAt(value, i) == 'O')
 			         {
-				      this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'U') ? this.encodeString : this.encodeString + 'U';
-				      i = (charAt(value, i + 1) == 'U' || charAt(value, i + 1) == 'O') ? i + 2 : i + 1;
+		            	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'U' || charAt(encodeString,encodeString.length()-1) == 'H') ? this.encodeString : this.encodeString + 'U';
+		              i = (charAt(value, i + 1) == 'U' || charAt(value, i + 1) == 'O') ? i + 2 : i + 1;
 				      return i;  
 			         }
 		    	   }
 		    	
-			   return ++i;  // means its A inside the word and we ignore
+			   return ++i;  // means its A,E,I inside the word and we ignore
 		   }
 		   
 		  private void handleC(String value,int i)
@@ -230,7 +199,6 @@ public class Rumeta {
 	         }
 		     else
 			    {
-				//this.encodeString = this.encodeString + 'K';
 				this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
 				this.index = this.index + 1;
 				}
