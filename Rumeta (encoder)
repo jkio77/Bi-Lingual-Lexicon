@@ -7,19 +7,21 @@ public class Rumeta {
 	
 	public static void main(String[] args) 
 	{
-		
 		Rumeta rm = new Rumeta();
-		
-	    
-       encodeString = "azzzaaaadddiiii" ;  // give your test string here  
+        encodeString = "azzzaaaadddiiii" ;  // give your test string here  
 	    System.out.println("Entered string = " + encodeString
 	            + " Roman metaphone code = "
 	            + rm.encodeRoman(encodeString));
 	}
-			   public String encodeRoman(String value)
+			  
+		  public String encodeRoman(String value)
 		   {
 			  
+			  System.out.println("entered string = " + value );
 			  value = cleanInput(value);
+			  value = removeConsecDups(value);
+			  System.out.println("after removing duplicates  = " + value );
+			  
 			  if (value == null) 
 			  return null;
 	          	   
@@ -38,88 +40,105 @@ public class Rumeta {
 		          case 'U': 
 			   
 		        	  index = handleAEIOUY(value,index);
-		        break;
+		                 break;
+		      //BDFGJLMNPRY
 		          case 'B': 
-		        	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'B') ? this.encodeString : this.encodeString + 'B';
-		        	  
-		        	  index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
-			       break;
-			      case 'C': 
-			    	  handleC(value, index);
-		         break;
-			       case 'D': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'D') ? this.encodeString : this.encodeString + 'D';
-			    	   index = charAt(value, index + 1) == 'D' ? index + 2 : index + 1;
-			       break;
+		              this.encodeString = this.encodeString + 'B';
+		        	      ++index;
+		        	      break;
+		        	      //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'B') ? this.encodeString : this.encodeString + 'B';
+		        	      //	index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
+		          case 'D': 
+			    	   this.encodeString += 'D' ;
+			    	   ++index;
+			    	   break;
+			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'D') ? this.encodeString : this.encodeString + 'D';
+			    	   //index = charAt(value, index + 1) == 'D' ? index + 2 : index + 1;
 			       case 'F': 
-			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'F') ? this.encodeString : this.encodeString + 'F';
-			    	   index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
+			    	   this.encodeString  += 'F';
+			    	   ++index;
 			    	   break;
-			       case 'G': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'G') ? this.encodeString : this.encodeString + 'G';
-			    	   index = charAt(value, index + 1) == 'G' ? index + 2 : index + 1;
-			        break;
-			       case 'H': 
-			    	   handleH(value,index);
+			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'F') ? this.encodeString : this.encodeString + 'F';
+			    	   //index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
+			    	   case 'G': 
+			    	   this.encodeString = this.encodeString + 'G';
+			    	   ++index; 
 			    	   break;
-			       case 'J': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'J') ? this.encodeString : this.encodeString + 'J';
-			    	   index = charAt(value, index + 1) == 'J' ? index + 2 : index + 1;
-			        break;
+			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'G') ? this.encodeString : this.encodeString + 'G';
+			    	   //index = charAt(value, index + 1) == 'G' ? index + 2 : index + 1;
+			    	   case 'J': 
+				    	   this.encodeString  += 'J';
+				    	   ++index;
+				    	   break;
+				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'J') ? this.encodeString : this.encodeString + 'J';
+				    	   //index = charAt(value, index + 1) == 'J' ? index + 2 : index + 1;
+			    		case 'L': 
+				       		this.encodeString += 'L';
+					        ++index;
+					        break;
+				       		//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'L') ? this.encodeString : this.encodeString + 'L';
+				       		//index = charAt(value, index + 1) == 'L' ? index + 2 : index + 1;
+					        
+				       case 'M': 
+				    	   this.encodeString += 'M';
+				    	   ++index;
+				    	   break;
+				       case 'N': 
+				    	   this.encodeString += 'N';
+				    	   ++index;
+				    	   break;
+				       case 'P': 
+				    	   this.encodeString += 'P';
+				    	   ++index;
+				    	   break;
+				       case 'Y': 
+					        this.encodeString  += 'Y';
+					        ++index;
+					        break;
+				       case 'R': 
+					    	  this.encodeString += 'R';
+				            ++index;
+					    	  break;
+					      case 'S': 
+					    	  this.encodeString += 'S';
+					      ++index; 
+					    	  break;
+					       case 'T': 
+					    	   this.encodeString += 'T';
+					       ++index;
+					    	   break;
+				   case 'C': 
+			      	   handleC(value, index);
+		               break;
+			  	   case 'H': 
+			    	       handleH(value,index);
+			    	       break;
 			       case 'K': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
-			    	   index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
-			        break;
-			       	case 'L': 
-			            this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'L') ? this.encodeString : this.encodeString + 'L';
-			       		index = charAt(value, index + 1) == 'L' ? index + 2 : index + 1;
-				        break;
-			       case 'M': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'M') ? this.encodeString : this.encodeString + 'M';
-			    	   index = charAt(value, index + 1) == 'M' ? index + 2 : index + 1;
-			       break;
-			       case 'N': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'N') ? this.encodeString : this.encodeString + 'N';
-			    	   index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
-				         break;
-			       case 'P': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'P') ? this.encodeString : this.encodeString + 'P'; 
-			    	   index = charAt(value, index + 1) == 'P' ? index + 2 : index + 1;
-			        break;
-			      case 'Q': 
-			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K'; 
-			    	  index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
-			        break;
-			      case 'R': 
-			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'R') ? this.encodeString : this.encodeString + 'R';
-			    	  
-				         index = charAt(value, index + 1) == 'R' ? index + 2 : index + 1;
-		        break;
-			      case 'S': 
-			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'S') ? this.encodeString : this.encodeString + 'S';     
-			    	  index = charAt(value, index + 1) == 'S' ? index + 2 : index + 1;
-			         break;
-			       case 'T': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'T') ? this.encodeString : this.encodeString + 'T'; 
-			    	   index = charAt(value, index + 1) == 'T' ? index + 2 : index + 1;
-			        break;
-			       case 'V': 
-			    	   case 'W': 
-			    	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
-			    	  index = (charAt(value, index + 1) == 'V' || charAt(value, index + 1) == 'W') ? index + 2 : index + 1;
-			        break;
-			       
-			       case 'Y': 
-				        this.encodeString = this.encodeString + 'Y';
-				        index = charAt(value, index + 1) == 'Y' ? index + 2 : index + 1;
-				        break;
-			       case 'X': 
-			    	   case 'Z': 
-			    	   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'Z') ? this.encodeString : this.encodeString + 'Z';
-			    	   index = (charAt(value, index + 1) == 'X' || charAt(value, index + 1) == 'Z') ? index + 2 : index + 1;
-			        break;
+			    	   		this.encodeString += 'K';
+			    	   		index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
+			    	   		break;
+			        case 'Q': 
+			    	  	     this.encodeString += 'K';
+         			    	 index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
+         			    	 break;
+			    	    case 'V': 
+			    	    			this.encodeString = this.encodeString + 'W';
+			    	    			index = (charAt(value, index + 1) == 'W' ) ? index + 2 : index + 1;
+			    	    			break;
+			    	    case 'W': 
+			    	    			this.encodeString +=  'W';
+			    	    			index = (charAt(value, index + 1) == 'V' ) ? index + 2 : index + 1;
+			    	    			break;
+			    	    case 'X': 
+			    	    			this.encodeString  += 'Z';
+			    	    			index = (charAt(value, index + 1) == 'Z' ) ? index + 2 : index + 1;
+			    	    			break;
+			         case 'Z': 
+			        	 		this.encodeString += 'Z';
+			        	 		index = (charAt(value, index + 1) == 'X' ) ? index + 2 : index + 1;
+			        	 		break;
 			       default: 
-			        index++;
+			        
 		        } //switch end
 		      } //while end
 		
@@ -129,7 +148,7 @@ public class Rumeta {
 		   
 		  private int handleAEIOUY(String value, int i)
 		   {
-		  
+		       //...............................................................................................
 			   if (i == 0) // we are at the first character
 		        {
 		             if (charAt(value,i) == 'A' || charAt(value,i) == 'E' || charAt(value,i) == 'I')
@@ -146,7 +165,7 @@ public class Rumeta {
 				             }
 		             return i;      
 		        } // i==0 chk end
-			   
+			   //...............................................................................................
 			   if (i == value.length() - 1 ) // we are at the last character 
 			   {
 				      if (charAt(value,i) == 'A')
@@ -167,22 +186,53 @@ public class Rumeta {
 				          i = i + 1;
 				          return i;
 				      }
-			   
 			   }
 				
-			   else // we are either on 2nd character or inside word or at 2nd last. here previous character matters
+			   else // we are anywhere from 2nd character to 2nd last. here previous and next character matters
 			   { 	      
-		            if (charAt(value, i) == 'U' || charAt(value, i) == 'O')
+		          /*
+				   if (charAt(value, i) == 'I' || charAt(value, i) == 'E')
+	                 {
+	   	        	   		this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'I') ? this.encodeString : this.encodeString + 'I';
+	   	        	   		i = (charAt(value, i + 1) == 'I' || charAt(value, i + 1) == 'E') ? i + 2 : i + 1;
+	   	        	   		return i; 
+	                 }
+		           else
+		            */
+				   if (i == value.length() - 2 ) // we are at 2nd last character and next is H
 			         {
-		            	  this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'U' || charAt(encodeString,encodeString.length()-1) == 'H') ? this.encodeString : this.encodeString + 'U';
-		              i = (charAt(value, i + 1) == 'U' || charAt(value, i + 1) == 'O') ? i + 2 : i + 1;
+					   if (charAt(value, value.length() - 1) == 'H' && charAt(value, value.length() - 2) == 'A') 
+					   { 
+						   this.encodeString += 'A';  
+						   ++i;
+					   }
+					   if (charAt(value, value.length() - 1) == 'M' && charAt(value, value.length() - 2) == 'A') 
+					   { 
+						   this.encodeString += 'M';  
+						   return ++i;
+					   }
+					   
+				     }
+				   if (charAt(value, i) == 'U' || charAt(value, i) == 'O')
+			         {
+					   this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'U' || charAt(encodeString,encodeString.length()-1) == 'H') ? this.encodeString : this.encodeString + 'U';
+				      i = (charAt(value, i + 1) == 'U' || charAt(value, i + 1) == 'O') ? i + 2 : i + 1;
 				      return i;  
 			         }
-		    	   }
+		    	     //..................................new case.............................
+				   if (charAt(value,i) == 'I' && charAt(value,i+1) == 'A') // make it Y
+				   {
+					   this.encodeString += 'Y';
+					   i = i + 2;
+					   return i;
+				   }
+			   }
 		    	
 			   return ++i;  // means its A,E,I inside the word and we ignore
 		   }
-		   
+		  
+		  
+		  //............................................................................... 
 		  private void handleC(String value,int i)
 		   {
 
@@ -207,17 +257,24 @@ public class Rumeta {
 		   
 		  private void handleH(String value, int i)
 		   {
-			          if (charAt(value, i - 1) != 'K' )
-			          	{
-			        	  if (charAt(value, i - 1) != 'G' ) 
-			        		  this.encodeString = this.encodeString + 'H';
-			          	}
-			                this.index = this.index +1;
-		
+			         
+		     if (i == 0) // we are at the first character 
+		     {
+	       	 	  this.encodeString = this.encodeString + 'H';
+	       	 	  this.index = this.index +1;
+	       	      return ; 	  
+		     }
+		      
+			  if (charAt(value, i - 1) != 'K' &&  charAt(value, i - 1) != 'G' && i != value.length() - 1)
+			  {
+				  	this.encodeString = this.encodeString + 'H';
+			   	}
+			        
+			          this.index = this.index +1;
 		   }
 		   
 		   
-		   
+		   //.........................................................
 		   private String cleanInput(String input)
 		  {
 		    if (input == null) {
@@ -228,8 +285,26 @@ public class Rumeta {
 		       return null;
 		    }
 		     return input.toUpperCase();
+		 
 		  }
-		   
+		   //.......................................................
+		   public static String removeConsecDups(String str) {
+			    if (str == null || str.length() == 0) {
+			        return str;
+			    }
+
+			    StringBuilder result = new StringBuilder();
+			    result.append(str.charAt(0));
+
+			    for (int i = 1; i < str.length(); i++) {
+			        if (str.charAt(i) != str.charAt(i - 1)) {
+			            result.append(str.charAt(i));
+			        }
+			    }
+
+			    return result.toString();
+			}
+		   //.......................................................................................
 		   protected char charAt(String value, int index)
 		  {
 		    if ((index < 0) || (index >= value.length())) {
@@ -285,5 +360,7 @@ public class Rumeta {
 		     return result;
 		   }
 		 
-	
+
+
+
 }
