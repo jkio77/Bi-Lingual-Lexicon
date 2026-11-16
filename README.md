@@ -13,6 +13,6 @@ This repository provides the source code, ontology, experimental artifacts, and 
 **Step 3 - BORUE Evaluation** <br>
 1. Read 'Detailed eval docu BORUE.docx' inside BORUE - Evaluation. <br>
 2. Run files as per detailed documents for reproducibility/ verification. <br>
-**Step 4 - BRUSE Evaluation**
-1. Read 'Detailed eval docu BRUSE.docx' inside BRUSE - Evaluation.
-2. Run files as per detailed documents for reproducibility/ verification.
+**Step 4 - BRUSE Evaluation** <br>
+1. Read 'Detailed eval docu BRUSE.docx' inside BRUSE - Evaluation. <br>
+2. Run files as per detailed documents for reproducibility/ verification. <br>
