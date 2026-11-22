@@ -9,7 +9,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 
 /** Self-contained RASOM matcher. Requires OWLAPI, but no Excel/POI library. */
 public class RASOM {
-    private static final String ONTOLOGY_PATH = "F:\\Eclipse\\EclipseHome\\BiOnt.owl";
+    private static final String ONTOLOGY_PATH = "D:/BORUE/BiOnt.owl";
     // This is the ontology vocabulary namespace, NOT a server connection.
     private static final String BASE_IRI = "http://localhost:3030/BiOnt.owl#";
     private static final double A = 1.0, B = 2.0, SURFACE_PENALTY_WEIGHT = 0.5;
@@ -61,17 +61,16 @@ public class RASOM {
             entry.romMeta = codes.get(0).toUpperCase(Locale.ROOT);
             dictionary.add(entry);
         }
-        // Deterministic ordering in case of otherwise tied ranking fields.
-        Collections.sort(dictionary, Comparator.comparing(d -> d.individualIRI));
+        // Preserve original ontology iteration order, exactly as ExcelMatcher does.
     }
 
     /** Returns at most r ranked ontology individuals for a single- or multiword query. */
     public List<MatchResult> RASOM(String query, int r) {
         if (r <= 0) throw new IllegalArgumentException("maxcandidates must be positive");
-        String cleaned = removeStopwords(query);
-        if (cleaned.isEmpty()) return Collections.emptyList();
-        String code = encodeSentence(cleaned);
-        List<MatchResult> results = findTopMatches(cleaned, code, dictionary);
+        // ExcelMatcher uses the input query verbatim; no stopword removal or cleaning.
+        if (query == null || query.trim().isEmpty()) return Collections.emptyList();
+        String code = encodeSentence(query);
+        List<MatchResult> results = findTopMatches(query, code, dictionary);
         return new ArrayList<MatchResult>(results.subList(0, Math.min(r, results.size())));
     }
 
@@ -90,10 +89,10 @@ public class RASOM {
     private String encodeSentence(String value) {
         StringBuilder output = new StringBuilder();
         for (String word : value.split("\\s+")) {
-            String code = encoder.encodeRoman(word);
-            if (code == null || code.isEmpty()) continue;
+            String code = encoder.encodeRoman(word.trim());
+            if (code == null || code.trim().isEmpty()) continue;
             if (output.length() > 0) output.append(' ');
-            output.append(code);
+            output.append(code.trim().toUpperCase());
         }
         return output.toString();
     }
@@ -115,10 +114,9 @@ public class RASOM {
                     String query = line.substring(0, comma).trim();
                     int count = Integer.parseInt(line.substring(comma + 1).trim());
                     if (query.isEmpty() || count < 1) { System.out.println("Query and positive maxcandidates required."); continue; }
-                    String filtered = removeStopwords(query);
-                    System.out.println("After stopwords: " + filtered);
-                    System.out.println("Tokens: " + getWordList(filtered));
-                    System.out.println("Encoded: " + matcher.encodeSentence(filtered));
+                    System.out.println("Query: " + query);
+                    System.out.println("Tokens: " + getWordList(query));
+                    System.out.println("Encoded: " + matcher.encodeSentence(query));
                     List<MatchResult> matches = matcher.RASOM(query, count);
                     if (matches.isEmpty()) System.out.println("No eligible ontology matches.");
                     for (int i = 0; i < matches.size(); i++) {
