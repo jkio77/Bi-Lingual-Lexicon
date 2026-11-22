@@ -1,14 +1,14 @@
-package org.borue  ;
+package BORUE;
 
 import java.io.*;
 import java.util.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-//final class will calculate all metrics for paper 
 
 
-/** CLQE final analysis. Compatible with Apache POI 3.17 and Java 8+. */
+
+
 public class CLQEFinalAnalysis {
     static final String INPUT_PATH = "D:\\BORUE\\CLQE_Semantic_Evaluation_Final.xlsx";
     static final String OUTPUT_PATH = "D:\\BORUE\\CLQE_Java_Statistical_Analysis.xlsx";
@@ -17,7 +17,7 @@ public class CLQEFinalAnalysis {
     static final double Z = 1.959963984540054;
     static class Stats {
         long n,lex,sem,strict,recovered,miss,score0,score1,score2,score3;
-        long b,c; // paired: lexical-only, semantic-only
+        long b,c; 
         void add(boolean l, int score) {
             n++; if(l)lex++;else miss++;
             if(score>=2)sem++;if(score==3)strict++;
@@ -52,7 +52,7 @@ public class CLQEFinalAnalysis {
         double half=Z*Math.sqrt(p*(1-p)/n+z2/(4.0*n*n))/den;
         return new double[]{100*(mid-half),100*(mid+half)};
     }
-    static double erf(double x){ // Abramowitz-Stegun approximation
+    static double erf(double x){ 
         double sign=x<0?-1:1;x=Math.abs(x);
         double t=1/(1+0.3275911*x);
         double y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);

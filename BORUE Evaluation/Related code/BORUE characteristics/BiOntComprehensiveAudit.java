@@ -1,10 +1,7 @@
-package org.borue;
+package BORUE;
 
 
-/*
- * This class finds out how many assertions are there in the BiOnt since there is 
- * discrepency
- */
+
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -12,11 +9,11 @@ import java.util.*;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 
-/** OWLAPI 4.x compatible, asserted-axiom audit; no reasoner required. */
+
 public class BiOntComprehensiveAudit {
     private static final String NS = "http://localhost:3030/BiOnt.owl#";
     private static final String INPUT = "D:/BORUE/BiOnt.owl";
-    private static final String OUTPUT_DIR = "D:/BORUE/BiOnt_Audit";
+    private static final String OUTPUT_DIR = "D:/BORUE";
     private static final String[] CODES = {"romMeta","soundexMeta","refSoundMeta","colPhCode",
             "metaphoneCode","dblMetCode","nysiisCode","caver1Code","caver2Code","urduPhoneCode"};
     private static final Set<String> CODE_SET = new HashSet<String>(Arrays.asList(CODES));

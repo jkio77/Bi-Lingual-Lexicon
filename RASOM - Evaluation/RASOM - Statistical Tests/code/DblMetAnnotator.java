@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.util.HashSet;
@@ -227,9 +227,7 @@ public class DblMetAnnotator {
 
 
 
-                /*
-                 * Remove previous dblMetCode values
-                 */
+                
 
                 EntitySearcher
                         .getDataPropertyValues(

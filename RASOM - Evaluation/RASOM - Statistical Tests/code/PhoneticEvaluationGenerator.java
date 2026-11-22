@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,139 +13,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//...............This is 1st step of statistical pipeline
 
-/**
- * ============================================================
- * PhoneticEvaluationGenerator
- * ============================================================
- *
- * Creates one standardized evaluation dataset from the result
- * files of all 10 phonetic retrieval methods.
- *
- * INPUT STRUCTURE OF EACH RESULT FILE
- * -----------------------------------
- *
- * A-F = Six Roman Urdu query/spelling variants
- * G   = BORUE
- * H   = Gold relevant Count
- * I-N = Retrieved results corresponding to A-F
- *
- * Row 1     = headings
- * Rows 2... = concepts
- *
- *
- * OUTPUT
- * ------
- *
- * One row represents:
- *
- *     ONE algorithm
- *     x ONE concept
- *     x ONE spelling variant
- *
- * Output columns:
- *
- * A = Algorithm
- * B = ConceptRow
- * C = VariantNo
- * D = Query
- * E = BORUE
- * F = GoldCount
- * G = RetrievedCount
- * H = RelevantRetrieved
- * I = Precision
- * J = Recall
- * K = F1
- * L = Hit
- *
- *
- * RELEVANCE RULE
- * --------------
- *
- * A retrieved result is relevant if BORUE occurs as a
- * continuous character block in the retrieved string.
- *
- * Matching is:
- *
- *     - case insensitive
- *     - leading/trailing whitespace ignored
- *     - repeated whitespace normalized
- *
- * Example:
- *
- * BORUE = "aadat"
- *
- *     aadat             -> relevant
- *     buri aadat        -> relevant
- *     aadati            -> relevant
- *     aadat dalna       -> relevant
- *
- *
- * BORUE = "ada kaar"
- *
- *     ada kaar          -> relevant
- *     mashhoor ada kaar -> relevant
- *     ada kaari         -> relevant
- *     ada mat kaar      -> NOT relevant
- *
- *
- * BORUE ALTERNATIVES
- * ------------------
- *
- * Comma separates alternatives:
- *
- *     abad,aabaad
- *
- * A retrieved result is relevant if ANY alternative occurs
- * as a continuous character block.
- *
- * A retrieved result can contribute at most ONE relevant hit,
- * even if more than one alternative matches it.
- *
- *
- * METRICS
- * -------
- *
- * TP = number of retrieved results relevant to BORUE
- *
- * N  = number of retrieved results
- *
- * G  = gold Count
- *
- * Precision = TP / N
- *
- * Recall = TP / G
- *
- * F1 = 2PR / (P + R)
- *
- * Hit = 1 if TP > 0
- *       0 otherwise
- *
- *
- * IMPORTANT
- * ---------
- *
- * This class performs NO statistical significance testing.
- *
- * It generates the standardized per-query dataset that will
- * later be used by:
- *
- *     - descriptive statistics
- *     - bootstrap confidence intervals
- *     - Wilcoxon signed-rank tests
- *     - McNemar tests
- *     - Holm correction
- *     - effect-size calculations
- *
- * ============================================================
- */
+
 public class PhoneticEvaluationGenerator {
 
 
-    // ========================================================
-    // CONFIGURATION
-    // ========================================================
 
     private static final String BASE_PATH =
             "D:/BORUE/";
@@ -154,9 +26,6 @@ public class PhoneticEvaluationGenerator {
     private static final String OUTPUT_FILE = BASE_PATH + "PhoneticEvaluation.xlsx";
 
 
-    /**
-     * One configuration object for each algorithm.
-     */
     private static final AlgorithmFile[] ALGORITHMS = {
 
         new AlgorithmFile(
@@ -211,34 +80,23 @@ public class PhoneticEvaluationGenerator {
     };
 
 
-    // ========================================================
-    // INPUT COLUMN NUMBERS
-    //
-    // Apache POI uses ZERO-BASED columns.
-    // ========================================================
 
-    private static final int FIRST_QUERY_COLUMN = 0; // A
+    private static final int FIRST_QUERY_COLUMN = 0; 
 
     private static final int QUERY_VARIANT_COUNT = 6;
 
-    private static final int BORUE_COLUMN = 6;       // G
+    private static final int BORUE_COLUMN = 6;       
 
-    private static final int GOLD_COUNT_COLUMN = 7;  // H
+    private static final int GOLD_COUNT_COLUMN = 7;  
 
-    private static final int FIRST_RESULT_COLUMN = 8; // I
+    private static final int FIRST_RESULT_COLUMN = 8; 
 
 
-    // ========================================================
-    // DATA FORMATTER
-    // ========================================================
 
     private static final DataFormatter DATA_FORMATTER =
             new DataFormatter();
 
 
-    // ========================================================
-    // MAIN
-    // ========================================================
 
     public static void main(String[] args) {
 
@@ -262,16 +120,10 @@ public class PhoneticEvaluationGenerator {
             System.out.println();
 
 
-            // ------------------------------------------------
-            // Validate all input files before starting.
-            // ------------------------------------------------
 
             validateInputFiles();
 
 
-            // ------------------------------------------------
-            // Create output workbook.
-            // ------------------------------------------------
 
             XSSFWorkbook outputWorkbook =
                     new XSSFWorkbook();
@@ -283,20 +135,15 @@ public class PhoneticEvaluationGenerator {
                     );
 
 
-            // ------------------------------------------------
-            // Create headings.
-            // ------------------------------------------------
 
             createHeader(outputSheet);
 
 
-            // First output row after header.
+
             int outputRowNumber = 1;
 
 
-            // ------------------------------------------------
-            // Process all 10 algorithms.
-            // ------------------------------------------------
+
 
             for (AlgorithmFile algorithm : ALGORITHMS) {
 
@@ -337,9 +184,6 @@ public class PhoneticEvaluationGenerator {
             }
 
 
-            // ------------------------------------------------
-            // Freeze header row.
-            // ------------------------------------------------
 
             outputSheet.createFreezePane(
                     0,
@@ -347,9 +191,6 @@ public class PhoneticEvaluationGenerator {
             );
 
 
-            // ------------------------------------------------
-            // Save output workbook.
-            // ------------------------------------------------
 
             System.out.println();
             System.out.println(
@@ -371,18 +212,12 @@ public class PhoneticEvaluationGenerator {
             outputWorkbook.close();
 
 
-            // ------------------------------------------------
-            // Final report.
-            // ------------------------------------------------
-
             int totalEvaluationRows =
                     outputRowNumber - 1;
 
 
             System.out.println();
-            System.out.println(
-                    "=============================================="
-            );
+            System.out.println("==============================================");
 
             System.out.println(
                     "PROCESSING COMPLETED SUCCESSFULLY"
@@ -438,10 +273,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // PROCESS ONE ALGORITHM
-    // ========================================================
-
+    
     private static int processAlgorithm(
             AlgorithmFile algorithm,
             Sheet outputSheet,
@@ -470,9 +302,7 @@ public class PhoneticEvaluationGenerator {
         int variantsProcessed = 0;
 
 
-        // ----------------------------------------------------
-        // Start from row 1 because row 0 contains headings.
-        // ----------------------------------------------------
+        
 
         for (int rowNumber = 1;
              rowNumber <= sheet.getLastRowNum();
@@ -491,21 +321,14 @@ public class PhoneticEvaluationGenerator {
 
             }
 
-
-            // ------------------------------------------------
-            // Read BORUE.
-            // ------------------------------------------------
-
-            String borue =
+                String borue =
                     getCellString(
                             row,
                             BORUE_COLUMN
                     );
 
 
-            // ------------------------------------------------
-            // Read gold Count.
-            // ------------------------------------------------
+            
 
             int goldCount =
                     getIntegerCellValue(
@@ -514,10 +337,7 @@ public class PhoneticEvaluationGenerator {
                     );
 
 
-            // ------------------------------------------------
-            // We expect BORUE for every concept.
-            // ------------------------------------------------
-
+            
             if (borue.isEmpty()) {
 
 
@@ -534,10 +354,7 @@ public class PhoneticEvaluationGenerator {
             }
 
 
-            // ------------------------------------------------
-            // Gold Count should normally be > 0.
-            // ------------------------------------------------
-
+            
             if (goldCount <= 0) {
 
 
@@ -553,9 +370,8 @@ public class PhoneticEvaluationGenerator {
             }
 
 
-            // ------------------------------------------------
-            // Process six query variants.
-            // ------------------------------------------------
+            
+
 
             for (int variantIndex = 0;
                  variantIndex < QUERY_VARIANT_COUNT;
@@ -586,9 +402,7 @@ public class PhoneticEvaluationGenerator {
                         );
 
 
-                // --------------------------------------------
-                // Parse retrieved candidates.
-                // --------------------------------------------
+                
 
                 List<String> retrieved =
                         parseRetrievedResults(
@@ -600,9 +414,7 @@ public class PhoneticEvaluationGenerator {
                         retrieved.size();
 
 
-                // --------------------------------------------
-                // Count relevant retrieved candidates.
-                // --------------------------------------------
+                
 
                 int relevantRetrieved =
                         countRelevantRetrieved(
@@ -611,9 +423,7 @@ public class PhoneticEvaluationGenerator {
                         );
 
 
-                // --------------------------------------------
-                // Calculate metrics.
-                // --------------------------------------------
+                
 
                 double precision = 0.0;
 
@@ -660,11 +470,7 @@ public class PhoneticEvaluationGenerator {
                         : 0;
 
 
-                // --------------------------------------------
-                // Sanity check.
-                //
-                // TP must never exceed retrieved count.
-                // --------------------------------------------
+                
 
                 if (relevantRetrieved
                         > retrievedCount) {
@@ -683,13 +489,7 @@ public class PhoneticEvaluationGenerator {
                 }
 
 
-                // --------------------------------------------
-                // Recall theoretically should not exceed 1.
-                //
-                // If this happens, there is disagreement
-                // between gold Count generation and result
-                // relevance calculation.
-                // --------------------------------------------
+                
 
                 if (recall > 1.0000001) {
 
@@ -740,9 +540,7 @@ public class PhoneticEvaluationGenerator {
                 }
 
 
-                // --------------------------------------------
-                // Write standardized output row.
-                // --------------------------------------------
+                
 
                 Row outputRow =
                         outputSheet.createRow(
@@ -810,9 +608,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // COUNT RELEVANT RETRIEVED RESULTS
-    // ========================================================
+    
 
     private static int countRelevantRetrieved(
             List<String> retrieved,
@@ -847,12 +643,7 @@ public class PhoneticEvaluationGenerator {
             boolean relevant = false;
 
 
-            // ------------------------------------------------
-            // OR relationship between BORUE alternatives.
-            //
-            // Candidate contributes only once even if multiple
-            // alternatives match it.
-            // ------------------------------------------------
+            
 
             for (String alternative : alternatives) {
 
@@ -884,9 +675,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // BORUE ALTERNATIVES
-    // ========================================================
+    
 
     private static List<String> getBorueAlternatives(
             String borue) {
@@ -903,18 +692,7 @@ public class PhoneticEvaluationGenerator {
         }
 
 
-        // ----------------------------------------------------
-        // ONLY comma separates alternatives.
-        //
-        // Spaces DO NOT.
-        //
-        // "ada kaar" remains one phrase.
-        //
-        // "abad,aabaad" becomes:
-        //
-        //     abad
-        //     aabaad
-        // ----------------------------------------------------
+        
 
         String[] pieces =
                 borue.split(",");
@@ -949,9 +727,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // PARSE RETRIEVED RESULTS
-    // ========================================================
+    
 
     private static List<String> parseRetrievedResults(
             String resultCell) {
@@ -971,17 +747,7 @@ public class PhoneticEvaluationGenerator {
         }
 
 
-        // ----------------------------------------------------
-        // Result candidates are comma-separated.
-        //
-        // Handles:
-        //
-        // word1, word2, word3
-        //
-        // and:
-        //
-        // word1,word2,word3
-        // ----------------------------------------------------
+        
 
         String[] pieces =
                 resultCell.split(
@@ -1012,9 +778,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // NORMALIZATION
-    // ========================================================
+    
 
     private static String normalize(
             String value) {
@@ -1038,9 +802,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // WRITE ONE EVALUATION ROW
-    // ========================================================
+    
 
     private static void writeEvaluationRow(
             Row row,
@@ -1132,9 +894,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // CREATE OUTPUT HEADER
-    // ========================================================
+    
 
     private static void createHeader(
             Sheet sheet) {
@@ -1177,10 +937,6 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // READ CELL AS STRING
-    // ========================================================
-
     private static String getCellString(
             Row row,
             int column) {
@@ -1208,9 +964,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // READ INTEGER CELL
-    // ========================================================
+    
 
     private static int getIntegerCellValue(
             Row row,
@@ -1230,9 +984,7 @@ public class PhoneticEvaluationGenerator {
         }
 
 
-        // ----------------------------------------------------
-        // Numeric Excel cell.
-        // ----------------------------------------------------
+        
 
         if (cell.getCellType()
                 == Cell.CELL_TYPE_NUMERIC) {
@@ -1244,9 +996,7 @@ public class PhoneticEvaluationGenerator {
         }
 
 
-        // ----------------------------------------------------
-        // String/formatted cell.
-        // ----------------------------------------------------
+        
 
         String value =
                 DATA_FORMATTER
@@ -1289,9 +1039,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // VALIDATE INPUT FILES
-    // ========================================================
+    
 
     private static void validateInputFiles() {
 
@@ -1321,9 +1069,7 @@ public class PhoneticEvaluationGenerator {
     }
 
 
-    // ========================================================
-    // ALGORITHM FILE CONFIGURATION
-    // ========================================================
+    
 
     private static class AlgorithmFile {
 

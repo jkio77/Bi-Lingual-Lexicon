@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.util.HashSet;
@@ -30,26 +30,13 @@ public class CologneAnnotator {
         try {
 
 
-            String ontologyPath =
-                    "D:/BORUE/BiOnt.owl";
+            String ontologyPath = "D:/BORUE/BiOnt.owl";
 
+            OWLOntologyManager manager =  OWLManager.createOWLOntologyManager();
 
+            OWLOntology ontology =   manager.loadOntologyFromOntologyDocument(new File(ontologyPath));
 
-            OWLOntologyManager manager =
-                    OWLManager.createOWLOntologyManager();
-
-
-
-            OWLOntology ontology =
-                    manager.loadOntologyFromOntologyDocument(
-                            new File(ontologyPath)
-                    );
-
-
-
-            System.out.println(
-                    "Ontology loaded successfully"
-            );
+            System.out.println("Ontology loaded successfully");
 
 
 

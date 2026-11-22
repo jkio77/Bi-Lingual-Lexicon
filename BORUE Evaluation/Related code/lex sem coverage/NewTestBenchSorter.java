@@ -1,8 +1,6 @@
-package org.borue;
-//...............2. second run of CLQE test track
-/*
- * this class will sort our newtextbench class since previous operation produced haphazard excel
- */
+package BORUE;
+
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -22,17 +20,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class NewTestBenchSorter {
 
-    private static final String DIRECTORY =
-            "D:\\BORUE\\";
+    private static final String DIRECTORY =  "D:\\BORUE\\";
 
-    private static final String REFERENCE_FILE =
-            DIRECTORY + "TestBenchFinalCount.xlsx";
+    private static final String REFERENCE_FILE =  DIRECTORY + "TestBenchFinalCount.xlsx";
 
-    private static final String INPUT_FILE =
-            DIRECTORY + "NewTestBench.xlsx";
+    private static final String INPUT_FILE = DIRECTORY + "NewTestBench.xlsx";
 
-    private static final String OUTPUT_FILE =
-            DIRECTORY + "NewTestBenchSort.xlsx";
+    private static final String OUTPUT_FILE =  DIRECTORY + "NewTestBenchSort.xlsx";
 
     public static void main(String[] args) {
 
@@ -48,7 +42,7 @@ public class NewTestBenchSorter {
 
         DataFormatter formatter = new DataFormatter();
 
-        // STEP 1: Read reference Common values in order
+        
         List<String> referenceOrder = new ArrayList<String>();
 
         try (FileInputStream fis =
@@ -77,7 +71,7 @@ public class NewTestBenchSorter {
         System.out.println("Reference Common values: "
                 + referenceOrder.size());
 
-        // STEP 2: Read input and group rows by Common
+        
         try (FileInputStream fis =
                      new FileInputStream(INPUT_FILE);
              Workbook inputWorkbook = new XSSFWorkbook(fis);
@@ -120,11 +114,11 @@ public class NewTestBenchSorter {
             Map<Short, CellStyle> styleMap =
                     new HashMap<Short, CellStyle>();
 
-            // STEP 3: Copy header
+            
             copyRow(inputHeader, outputSheet.createRow(0),
                     outputWorkbook, styleMap);
 
-            // STEP 4: Write rows in reference order
+            
             int outputRowIndex = 1;
             int matchedRows = 0;
             int missingReferenceWords = 0;
@@ -150,8 +144,7 @@ public class NewTestBenchSorter {
                 }
             }
 
-            // STEP 5: Append unmatched rows, if any,
-            // so no source data is lost
+            
             int unmatchedRows = 0;
 
             for (List<Row> rows : groupedRows.values()) {
@@ -168,21 +161,21 @@ public class NewTestBenchSorter {
                 }
             }
 
-            // Preserve column widths
+            
             for (int c = 0; c < totalColumns; c++) {
 
                 outputSheet.setColumnWidth(
                         c, inputSheet.getColumnWidth(c));
             }
 
-            // STEP 6: Save sorted workbook
+            
             try (FileOutputStream fos =
                          new FileOutputStream(OUTPUT_FILE)) {
 
                 outputWorkbook.write(fos);
             }
 
-            // STEP 7: Summary
+            
             System.out.println();
             System.out.println("========== SORT SUMMARY ==========");
             System.out.println("Input rows: " + inputRows);
@@ -234,7 +227,7 @@ public class NewTestBenchSorter {
                 .toLowerCase(Locale.ROOT);
     }
 
-    // Apache POI 3.17-compatible row copying
+    
     private static void copyRow(
             Row sourceRow,
             Row targetRow,

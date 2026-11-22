@@ -1,6 +1,6 @@
-package org.borue;
+package BORUE;
 
-//.............1. run for CLQE test track
+
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,11 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/*
- * I checked mendely dataset on 3 Nov 2026 and English translation was also added
- * so i conducted another test in the query expansion section
- * this class is for bringing the downloaded dataset inline with our previous work
- */
+
 
 public class NewTestBenchGenerator {
 
@@ -59,7 +55,7 @@ public class NewTestBenchGenerator {
         int excludedRows = 0;
         int emptyCommonRows = 0;
 
-        // STEP 1: Load reference Common values
+        
         try (FileInputStream fis =
                      new FileInputStream(REFERENCE_FILE);
              Workbook workbook = new XSSFWorkbook(fis)) {
@@ -91,7 +87,6 @@ public class NewTestBenchGenerator {
         System.out.println("Unique reference Common values: "
                 + referenceWords.size());
 
-        // STEP 2: Read source and generate output
         try (FileInputStream fis =
                      new FileInputStream(SOURCE_FILE);
              Workbook sourceWorkbook = new XSSFWorkbook(fis);
@@ -113,7 +108,7 @@ public class NewTestBenchGenerator {
             Map<Short, CellStyle> styleMap =
                     new HashMap<Short, CellStyle>();
 
-            // Copy all column headers
+            
             Row outputHeader = outputSheet.createRow(0);
 
             copyRow(sourceHeader, outputHeader,
@@ -121,7 +116,7 @@ public class NewTestBenchGenerator {
 
             int outputRowIndex = 1;
 
-            // STEP 3: Filter rows using Common column
+           
             for (int i = 1;
                  i <= sourceSheet.getLastRowNum(); i++) {
 
@@ -156,14 +151,14 @@ public class NewTestBenchGenerator {
                 }
             }
 
-            // Preserve source column widths
+            
             for (int c = 0; c < totalColumns; c++) {
 
                 outputSheet.setColumnWidth(
                         c, sourceSheet.getColumnWidth(c));
             }
 
-            // STEP 4: Write output Excel file
+            
             try (FileOutputStream fos =
                          new FileOutputStream(OUTPUT_FILE)) {
 
@@ -171,7 +166,7 @@ public class NewTestBenchGenerator {
             }
         }
 
-        // STEP 5: Print summary
+        
         System.out.println();
         System.out.println("========== SUMMARY ==========");
         System.out.println("Reference Common values: "
@@ -185,7 +180,7 @@ public class NewTestBenchGenerator {
         System.out.println("PROCESS COMPLETED SUCCESSFULLY");
     }
 
-    // Find the Common column by header name
+    
     private static int findCommonColumn(
             Row header, DataFormatter formatter) {
 
@@ -208,7 +203,7 @@ public class NewTestBenchGenerator {
                 "Column 'Common' not found.");
     }
 
-    // Normalize Common values for comparison
+    
     private static String getCellValue(
             Row row, int column, DataFormatter formatter) {
 
@@ -223,8 +218,7 @@ public class NewTestBenchGenerator {
                 .toLowerCase(Locale.ROOT);
     }
 
-    // Copy an entire Excel row
-    // Compatible with Apache POI 3.17
+   
     private static void copyRow(
             Row sourceRow,
             Row targetRow,
@@ -281,7 +275,7 @@ public class NewTestBenchGenerator {
                     break;
             }
 
-            // Copy cell formatting
+            
             CellStyle sourceStyle = sourceCell.getCellStyle();
 
             if (sourceStyle != null) {

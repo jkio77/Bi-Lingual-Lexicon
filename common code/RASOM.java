@@ -5,12 +5,12 @@ import java.util.*;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.search.EntitySearcher;
-//............main RASOM implementation for reproducibility only
 
-/** Self-contained RASOM matcher. Requires OWLAPI, but no Excel/POI library. */
+
+
 public class RASOM {
     private static final String ONTOLOGY_PATH = "D:/BORUE/BiOnt.owl";
-    // This is the ontology vocabulary namespace, NOT a server connection.
+
     private static final String BASE_IRI = "http://localhost:3030/BiOnt.owl#";
     private static final double A = 1.0, B = 2.0, SURFACE_PENALTY_WEIGHT = 0.5;
     private static final String[] ALLOWED_VARIATIONS = {"I", "YT"};
@@ -61,13 +61,12 @@ public class RASOM {
             entry.romMeta = codes.get(0).toUpperCase(Locale.ROOT);
             dictionary.add(entry);
         }
-        // Preserve original ontology iteration order, exactly as ExcelMatcher does.
+
     }
 
-    /** Returns at most r ranked ontology individuals for a single- or multiword query. */
     public List<MatchResult> RASOM(String query, int r) {
         if (r <= 0) throw new IllegalArgumentException("maxcandidates must be positive");
-        // ExcelMatcher uses the input query verbatim; no stopword removal or cleaning.
+        
         if (query == null || query.trim().isEmpty()) return Collections.emptyList();
         String code = encodeSentence(query);
         List<MatchResult> results = findTopMatches(query, code, dictionary);
@@ -169,12 +168,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-        /*
-
-         * Compare against every dictionary entry.
-
-         */
-
+        
         for (DictionaryEntry entry :
 
                 dictionary) {
@@ -191,20 +185,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-            /*
-
-             * --------------------------------------------------------
-
-             * STAGE 1
-
-             *
-
-             * Strict phonetic relevance filtering.
-
-             * --------------------------------------------------------
-
-             */
-
+        
             MatchAnalysis analysis =
 
                     analyzeCandidate(
@@ -217,14 +198,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-            /*
-
-             * Reject candidate if there is no exact or explicitly
-
-             * allowed phonetic match.
-
-             */
-
+        
             if (analysis.matchTier
 
                     ==
@@ -236,20 +210,6 @@ private static List<MatchResult> findTopMatches(
             }
 
 
-
-            /*
-
-             * --------------------------------------------------------
-
-             * STAGE 2
-
-             *
-
-             * Calculate ranking metrics.
-
-             * --------------------------------------------------------
-
-             */
 
             double phraseMetric =
 
@@ -277,12 +237,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-            /*
-
-             * Surface spelling comparison.
-
-             */
-
+        
             double surfacePenalty =
 
                     calculateSurfacePenalty(
@@ -295,12 +250,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-            /*
-
-             * Exact original spelling.
-
-             */
-
+        
             boolean exactSurfaceMatch =
 
                     normalizeSurfaceText(
@@ -321,16 +271,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-            /*
-
-             * Final score.
-
-             *
-
-             * Lower score is better.
-
-             */
-
+        
             double similarityScore =
 
                     phraseMetric
@@ -441,16 +382,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-        /*
-
-         * ============================================================
-
-         * SORT
-
-         * ============================================================
-
-         */
-
+        
         Collections.sort(
 
                 results,
@@ -469,12 +401,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 1. Exact phonetic match before variation.
-
-                         */
-
+        
                         int tierComparison =
 
                                 Integer.compare(
@@ -495,12 +422,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 2. Exact surface spelling.
-
-                         */
-
+        
                         if (first.exactSurfaceMatch
 
                                 !=
@@ -521,12 +443,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 3. Lower surface penalty.
-
-                         */
-
+        
                         int surfaceComparison =
 
                                 Double.compare(
@@ -547,12 +464,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 4. More exact phonetic words.
-
-                         */
-
+        
                         int exactComparison =
 
                                 Integer.compare(
@@ -573,12 +485,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 5. Fewer variation words.
-
-                         */
-
+        
                         int variationComparison =
 
                                 Integer.compare(
@@ -599,12 +506,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 6. Lower PhraseMetric.
-
-                         */
-
+        
                         int phraseComparison =
 
                                 Double.compare(
@@ -625,12 +527,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 7. Lower WordMetric.
-
-                         */
-
+        
                         int wordComparison =
 
                                 Double.compare(
@@ -651,12 +548,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-                        /*
-
-                         * 8. Lower final score.
-
-                         */
-
+        
                         return Double.compare(
 
                                 first.similarityScore,
@@ -673,12 +565,7 @@ private static List<MatchResult> findTopMatches(
 
 
 
-        /*
-
-         * Return TOP_K.
-
-         */
-
+        
         int resultCount =
 
                 Math.min(
@@ -719,7 +606,7 @@ private static MatchAnalysis analyzeCandidate(
         Set<Integer> usedCandidateIndexes = new HashSet<Integer>();
         Set<Integer> matchedQueryIndexes = new HashSet<Integer>();
 
-        /* STEP 1A: exact complete single-word phonetic matches. */
+        
         for (int q = 0; q < queryWords.size(); q++) {
             String queryWord = queryWords.get(q);
             for (int i = 0; i < candidateWords.size(); i++) {
@@ -734,8 +621,7 @@ private static MatchAnalysis analyzeCandidate(
             }
         }
 
-        /* STEP 1B: exact joined-adjacent match, e.g.
-         * ZMADRI <-> ZMA DRI. */
+        
         for (int q = 0; q < queryWords.size(); q++) {
             if (matchedQueryIndexes.contains(q)) continue;
             String queryWord = queryWords.get(q);
@@ -762,8 +648,7 @@ private static MatchAnalysis analyzeCandidate(
             }
         }
 
-        /* STEP 1C: controlled single-word phonetic alignment.
-         * Consonants remain hard anchors. */
+        
         for (int q = 0; q < queryWords.size(); q++) {
             if (matchedQueryIndexes.contains(q)) continue;
             String queryWord = queryWords.get(q);
@@ -780,9 +665,7 @@ private static MatchAnalysis analyzeCandidate(
             }
         }
 
-        /* STEP 1D: joined-adjacent alignment with duplicate collapse at
-         * the candidate word boundary. Example:
-         * YDSHT <-> YD DSHT -> YDDSHT -> YDSHT. */
+        
         for (int q = 0; q < queryWords.size(); q++) {
             if (matchedQueryIndexes.contains(q)) continue;
             String queryWord = queryWords.get(q);
@@ -808,7 +691,7 @@ private static MatchAnalysis analyzeCandidate(
             }
         }
 
-        /* STEP 2: explicitly allowed suffix variations. */
+        
         for (int q = 0; q < queryWords.size(); q++) {
             if (matchedQueryIndexes.contains(q)) continue;
             String queryWord = queryWords.get(q);
@@ -847,7 +730,7 @@ private static boolean isControlledPhoneticAlignment(String first, String second
         second = second.trim().toUpperCase();
         if (first.isEmpty() || second.isEmpty() || first.equals(second)) return false;
 
-        /* Special terminal A <-> N: complete preceding sequence must match. */
+        
         if (first.length() == second.length() && first.length() > 1) {
             String p1 = first.substring(0, first.length() - 1);
             String p2 = second.substring(0, second.length() - 1);
@@ -858,10 +741,10 @@ private static boolean isControlledPhoneticAlignment(String first, String second
             }
         }
 
-        /* Hard consonant anchor rule. */
+        
         if (!consonantSkeleton(first).equals(consonantSkeleton(second))) return false;
 
-        /* Same length: differences must be vowel-for-vowel substitutions. */
+        
         if (first.length() == second.length()) {
             for (int i = 0; i < first.length(); i++) {
                 char a = first.charAt(i), b = second.charAt(i);
@@ -870,10 +753,10 @@ private static boolean isControlledPhoneticAlignment(String first, String second
             return true;
         }
 
-        /* Y is a soft vowel-like marker and may be inserted/deleted internally. */
+        
         if (removeCharacter(first, 'Y').equals(removeCharacter(second, 'Y'))) return true;
 
-        /* One terminal vowel may be inserted/deleted. */
+        
         if (Math.abs(first.length() - second.length()) == 1) {
             String longer = first.length() > second.length() ? first : second;
             String shorter = first.length() > second.length() ? second : first;
@@ -881,9 +764,7 @@ private static boolean isControlledPhoneticAlignment(String first, String second
                     && longer.substring(0, longer.length() - 1).equals(shorter)) return true;
         }
 
-        /* Internal non-Y vowel insertion/deletion is allowed only when both
-         * complete codes retain a vowel ending. This accepts DUNU/DNU but
-         * rejects the counterexample ZUHR/ZHR. */
+        
         if (Math.abs(first.length() - second.length()) == 1
                 && isPhoneticVowel(first.charAt(first.length() - 1))
                 && isPhoneticVowel(second.charAt(second.length() - 1))) {
@@ -976,12 +857,6 @@ private static boolean isAllowedVariation(
 
 
 
-        /*
-
-         * Candidate must be longer.
-
-         */
-
         if (candidateWord.length()
 
                 <=
@@ -994,12 +869,6 @@ private static boolean isAllowedVariation(
 
 
 
-        /*
-
-         * Candidate must start with complete query code.
-
-         */
-
         if (!candidateWord.startsWith(
 
                 queryWord
@@ -1011,13 +880,6 @@ private static boolean isAllowedVariation(
         }
 
 
-
-        /*
-
-         * Get remaining suffix.
-
-         */
-
         String suffix =
 
                 candidateWord.substring(
@@ -1027,12 +889,6 @@ private static boolean isAllowedVariation(
                 );
 
 
-
-        /*
-
-         * Only explicitly allowed suffixes are accepted.
-
-         */
 
         for (String allowedSuffix :
 
@@ -1072,13 +928,7 @@ private static double calculateSurfacePenalty(
 
 
 
-        List<String> candidateWords =
-
-                getWordList(
-
-                        candidateText
-
-                );
+        List<String> candidateWords =    getWordList(candidateText);
 
 
 
@@ -1106,11 +956,7 @@ private static double calculateSurfacePenalty(
 
 
 
-        /*
-
-         * Single-word case.
-
-         */
+        
 
         if (queryWords.size() == 1
 
@@ -1132,21 +978,11 @@ private static double calculateSurfacePenalty(
 
 
 
-        /*
-
-         * Multi-word case.
-
-         */
-
-        double totalPenalty =
-
-                0.0;
+        double totalPenalty = 0.0;
 
 
 
-        int matchedQueryWords =
-
-                0;
+        int matchedQueryWords =  0;
 
 
 
@@ -2488,8 +2324,7 @@ private static void collectSubClasses(
     }
     private static class RomanMetaphone {
 
-//....backbone of fuzzy string matching RUMETA
-	//.....Ruman Urdu MEtaphone Algorithm
+
 	
 
 		  private static final String VOWELS = "AEIOU";
@@ -2497,7 +2332,7 @@ private static void collectSubClasses(
 		  int index = 0;
 		  
 	    	  
-		  public RomanMetaphone(){}  // default constructor
+		  public RomanMetaphone(){}  
 		  
 		  public boolean isRomanMetaphoneEqual(String v1, String v2)
 		  {
@@ -2505,9 +2340,7 @@ private static void collectSubClasses(
 			  String code1;
 			  String code2;
 			
-			  //preprocessing.......................................
-		//    Source: http://www.javaforschool.com/788673-program-to-remove-duplicate-characters-from-a-word/#ixzz3MYzaIs5x
-			  //.....................................................
+			  
 			  
 			  code1 = encodeRoman(v1);
               code2 = encodeRoman(v2); 
@@ -2527,8 +2360,8 @@ private static void collectSubClasses(
 			  if (value == null) 
 			  return null;
 	          	   
-			  index = 0; // resetting index value for successive calls
-		      this.encodeString = ""; // resetting encode string value for successive calls
+			  index = 0; 
+		      this.encodeString = ""; 
 			  
 		   
 			  while ( index <= value.length() - 1) 
@@ -2548,81 +2381,69 @@ private static void collectSubClasses(
 		              this.encodeString = this.encodeString + 'B';
 		        	      ++index;
 		        	      break;
-		        	      //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'B') ? this.encodeString : this.encodeString + 'B';
-		        	      //	index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
+		        
 		          case 'D': 
 			    	   this.encodeString += 'D' ;
 			    	   ++index;
 			    	   break;
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'D') ? this.encodeString : this.encodeString + 'D';
-			    	   //index = charAt(value, index + 1) == 'D' ? index + 2 : index + 1;
+			
 			       case 'F': 
 			    	   this.encodeString  += 'F';
 			    	   ++index;
 			    	   break;
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'F') ? this.encodeString : this.encodeString + 'F';
-			    	   //index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
+			
 			    	   case 'G': 
 			    	   this.encodeString = this.encodeString + 'G';
 			    	   ++index; 
 			    	   break;
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'G') ? this.encodeString : this.encodeString + 'G';
-			    	   //index = charAt(value, index + 1) == 'G' ? index + 2 : index + 1;
+			
 			    	   case 'J': 
 				    	   this.encodeString  += 'J';
 				    	   ++index;
 				    	   break;
-				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'J') ? this.encodeString : this.encodeString + 'J';
-				    	   //index = charAt(value, index + 1) == 'J' ? index + 2 : index + 1;
+			
 			    		case 'L': 
 				       		this.encodeString += 'L';
 					        ++index;
 					        break;
-				       		//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'L') ? this.encodeString : this.encodeString + 'L';
-				       		//index = charAt(value, index + 1) == 'L' ? index + 2 : index + 1;
+			
 					        
 				       case 'M': 
 				    	   this.encodeString += 'M';
 				    	   ++index;
 				    	   break;
-				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'M') ? this.encodeString : this.encodeString + 'M';
-				    	   //index = charAt(value, index + 1) == 'M' ? index + 2 : index + 1;
+			
 				       case 'N': 
 				    	   this.encodeString += 'N';
 				    	   ++index;
 				    	   break;
-				    	   // this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'N') ? this.encodeString : this.encodeString + 'N';
-				    	   //index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
+			
 					   
 				       case 'P': 
 				    	   this.encodeString += 'P';
 				    	   ++index;
 				    	   break;
-				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'P') ? this.encodeString : this.encodeString + 'P'; 
-				    	   //index = charAt(value, index + 1) == 'P' ? index + 2 : index + 1;
+			
 
 				       case 'Y': 
 					        this.encodeString  += 'Y';
-					        //index = charAt(value, index + 1) == 'Y' ? index + 2 : index + 1;
+			
 					        ++index;
 					        break;
 				       case 'R': 
 					    	  this.encodeString += 'R';
-					    	  //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'R') ? this.encodeString : this.encodeString + 'R';
-					    	  //index = charAt(value, index + 1) == 'R' ? index + 2 : index + 1;
+			
 				            ++index;
 					    	  break;
 					      case 'S': 
-					    	  //this.encodeString =this.encodeString + 'S';
-					    	 // this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'S') ? this.encodeString : this.encodeString + 'S';     
+			
 					    	  this.encodeString += 'S';
-					    	 // index = charAt(value, index + 1) == 'S' ? index + 2 : index + 1;
+					    
 					      ++index; 
 					    	  break;
 					       case 'T': 
 					    	   this.encodeString += 'T';
-					    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'T') ? this.encodeString : this.encodeString + 'T'; 
-					    	   //index = charAt(value, index + 1) == 'T' ? index + 2 : index + 1;
+					    
 					       ++index;
 					    	   break;
 				       
@@ -2637,21 +2458,20 @@ private static void collectSubClasses(
 			    	   		this.encodeString += 'K';
 			    	   		index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
 			    	   		break;
-			    	         //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
-			    	         //index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
+			    	         
 			        case 'Q': 
-			    	  	     this.encodeString += 'K';
+			    	  	 this.encodeString += 'K';
          			    	 index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
          			    	 break;
-         			    	 //	this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K'; 
+         			    	 
 			    	    case 'V': 
 			    	    			this.encodeString = this.encodeString + 'W';
-			    	    			//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
+			    	    	
 			    	    			index = (charAt(value, index + 1) == 'W' ) ? index + 2 : index + 1;
 			    	    			break;
 			    	    case 'W': 
 			    	    			this.encodeString +=  'W';
-			    	    			//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
+			    	    	
 			    	    			index = (charAt(value, index + 1) == 'V' ) ? index + 2 : index + 1;
 			    	    			break;
 			    	    case 'X': 
@@ -2660,19 +2480,19 @@ private static void collectSubClasses(
 			    	    			break;
 			         case 'Z': 
 			        	 		this.encodeString += 'Z';
-			        	 		//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'Z') ? this.encodeString : this.encodeString + 'Z';
+			        	 	
 			        	 		index = (charAt(value, index + 1) == 'X' ) ? index + 2 : index + 1;
 			        	 		break;
 			       default: ++index;
 			        
-		        } //switch end
-		      } //while end
+		        } 
+		      } 
 		    
 		    
 		    
 		    return this.encodeString;
 		    
-		   } // encode end
+		   } 
 		   
 		  private int handleAEIOUY(String value, int i)
 		   {
@@ -2698,7 +2518,7 @@ private static void collectSubClasses(
 		        } 
 			   
 			  //.............CASE 2. WE ARE AT THE LAST CHARACTER..................................................................................
-			   if (i == value.length() - 1 ) // we are at the last character 
+			   if (i == value.length() - 1 ) 
 			   {
 				      if (charAt(value,i) == 'A')
 				      {
@@ -2723,14 +2543,6 @@ private static void collectSubClasses(
 				
 			   //...........IF WE HAVE REACHED HERE THAT MEANS WE ARE ANY WHERE FROM 2ND TO 2ND LAST CHARACTER
 			   
-			    // we are anywhere from 2nd character to 2nd last. here previous and next character matters
-			    	      
-			 	  
-				   //..........applies to any place.....CASE 3 2ND TO 2ND LAST...............................
-			   //System.out.println("stuck here" + value);
-			   	 //  System.out.println(i+1);
-				   //System.out.println(value.length());
-				   
 				   if (i + 1 < value.length()) 
 				      {
 					    switch (value.substring(i, i + 2)) 
@@ -2746,12 +2558,6 @@ private static void collectSubClasses(
 								   return i;
 					      
 					        		   
-					     /*
-					        case "AH":
-					        	this.encodeString += 'A';
-					        	i=i+2;
-					        	return i;
-					        	*/
 					        	}
 					
 					    if (charAt(value,i) == 'O' || charAt(value, i) == 'U')
@@ -2767,7 +2573,7 @@ private static void collectSubClasses(
 				   {
 					   if ((charAt(value, i) == 'A' || charAt(value, i) == 'U') && "AEIOU".indexOf(value.charAt(i+1)) == -1)
 					      {
-						   i+=1; // igonore A and U
+						   i+=1; 
 						   return i;
 					      }
 					   
@@ -2787,7 +2593,7 @@ private static void collectSubClasses(
 				    
 		    	       }
 				  
-			   return ++i;  // means its A,E,I inside the word and we ignore
+			   return ++i;  
 		   }
 		  
 		  
@@ -2808,7 +2614,7 @@ private static void collectSubClasses(
 	         }
 		     else
 			    {
-				//this.encodeString = this.encodeString + 'K';
+				
 				this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
 				this.index = this.index + 1;
 				}
@@ -2817,7 +2623,7 @@ private static void collectSubClasses(
 		  private void handleH(String value, int i)
 		   {
 			         
-		     if (i == 0) // we are at the first character 
+		     if (i == 0) 
 		     {
 	       	 	  this.encodeString = this.encodeString + 'H';
 	       	 	  this.index = this.index +1;
@@ -2861,16 +2667,16 @@ private static void collectSubClasses(
             
 			   if (str == null || str.isEmpty()) 
 			   { return ""; } 
-			// Normalize common Unicode whitespace characters
-			   str = str .replace('\u00A0', ' ') // Non-breaking space  
-			    .replace('\u2007', ' ') // Figure space  
-			    .replace('\u202F', ' ');  // Narrow no-break space  
+			
+			   str = str .replace('\u00A0', ' ') 
+			    .replace('\u2007', ' ') 
+			    .replace('\u202F', ' ');  
 			    
-			   // Normalize multiple spaces into one 
+			   
 			   str = str.replaceAll("\\s+", " ").trim(); 
-			   // Convert to uppercase 
+			   
 			   str = str.toUpperCase(); 
-			   // previous logic
+			   
 			   
 			   if (str == null || str.length() == 0) {
 			        return str;
@@ -2891,48 +2697,7 @@ private static void collectSubClasses(
 			    return result.toString();
 			
 			
-				/*  
-               if (str == null || str.isEmpty()) {
-				        return "";
-				    }
-
-				    // Normalize Unicode whitespace
-				    str = str.replace('\u00A0', ' ')
-				             .replace('\u2007', ' ')
-				             .replace('\u202F', ' ');
-
-				    // Normalize spaces and convert to uppercase
-				    str = str.replaceAll("\\s+", " ")
-				             .trim()
-				             .toUpperCase(java.util.Locale.ROOT);
-
-				    // Collapse repeated CH and GH sequences
-				    str = str.replaceAll("(?:CH){2,}", "CH");
-				    str = str.replaceAll("(?:GH){2,}", "GH");
-
-				    // Remove consecutive duplicate letters only
-				    // Repeated digits remain unchanged
-				    StringBuilder result = new StringBuilder();
-
-				    for (int i = 0; i < str.length(); i++) {
-
-				        char current = str.charAt(i);
-
-				        if (result.length() > 0) {
-
-				            char previous = result.charAt(result.length() - 1);
-
-				            if (Character.isLetter(current)
-				                    && current == previous) {
-				                continue;
-				            }
-				        }
-
-				        result.append(current);
-				    }
-
-				    return result.toString();
-				*/
+		
 				}
 			   
 			
@@ -2998,17 +2763,7 @@ private static void collectSubClasses(
 			        return input;
 			    }
 
-			    /*
-			     * =========================================================
-			     * NUMERIC ROMAN-URDU RULES
-			     * =========================================================
-			     *
-			     * Add new rules here only.
-			     *
-			     * IMPORTANT:
-			     * Longer numbers are automatically checked before
-			     * shorter numbers.
-			     */
+		
 			    java.util.Map<String, String> rules =
 			            new java.util.HashMap<String, String>();
 
@@ -3027,13 +2782,6 @@ private static void collectSubClasses(
 			    rules.put("30", "tes");
 
 
-			    /*
-			     * Sort numeric rules by length.
-			     *
-			     * Example:
-			     * 20 must be tested before 2.
-			     * 100 would be tested before 10 and 1.
-			     */
 			    java.util.List<String> numbers =
 			            new java.util.ArrayList<String>(rules.keySet());
 
@@ -3056,36 +2804,7 @@ private static void collectSubClasses(
 			    String result = input;
 
 
-			    /*
-			     * =========================================================
-			     * PROCESS EACH RULE
-			     * =========================================================
-			     *
-			     * A numeric rule is converted when:
-			     *
-			     * 1. It touches a letter on at least one side.
-			     *
-			     * 2. It is NOT touching another digit.
-			     *
-			     * Therefore:
-			     *
-			     * la4       -> lachar
-			     * 4bar      -> charbar
-			     * a4b       -> acharb
-			     * 2no       -> dono
-			     * kha20     -> khabes
-			     * 20yar     -> besyar
-			     * zabar10t  -> zabardust
-			     *
-			     * But:
-			     *
-			     * 4         -> 4
-			     * tum 4 bar -> tum 4 bar
-			     * 44bar     -> 44bar
-			     * la44      -> la44
-			     * 22no      -> 22no
-			     * abc44xyz  -> abc44xyz
-			     */
+		
 			    for (String number : numbers) {
 
 			        String replacement = rules.get(number);
@@ -3108,10 +2827,7 @@ private static void collectSubClasses(
 			    }
 
 
-			    /*
-			     * Remove punctuation / special characters.
-			     * Keep letters, digits and whitespace.
-			     */
+		
 			    result = result.replaceAll(
 			            "[^A-Za-z0-9\\s]",
 			            ""

@@ -1,7 +1,4 @@
-package org.borue;
-
-//..........5ht CLQE
-//...........performs hit analysis
+package BORUE;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -86,7 +83,7 @@ public class CLQEHitAnalysis {
                 hitIndexes[j] =  findColumn(header, HIT_COLUMNS[j], formatter);
             }
 
-            // Optional identifiers for audit sheet
+            
             int commonIndex =
                     findOptionalColumn(header, "Common", formatter);
 
@@ -94,9 +91,7 @@ public class CLQEHitAnalysis {
                     findOptionalColumn(
                             header, "English_Translated", formatter);
 
-            // =================================================
-            // CREATE AUDIT SHEET
-            // =================================================
+            
 
             Sheet detailSheet =
                     outputWorkbook.createSheet("Query_Details");
@@ -126,9 +121,7 @@ public class CLQEHitAnalysis {
 
             int detailRowIndex = 1;
 
-            // =================================================
-            // PROCESS INPUT ROWS
-            // =================================================
+            
 
             for (int i = 1; i <= inputSheet.getLastRowNum(); i++) {
 
@@ -223,9 +216,7 @@ public class CLQEHitAnalysis {
                     category = "Partial Success";
                 }
 
-                // =================================================
-                // WRITE QUERY-LEVEL AUDIT RECORD
-                // =================================================
+                
 
                 Row detailRow =
                         detailSheet.createRow(detailRowIndex++);
@@ -260,9 +251,7 @@ public class CLQEHitAnalysis {
                         .setCellValue(recovery ? "Yes" : "No");
             }
 
-            // =================================================
-            // SHEET 1: VARIANT HIT RATES
-            // =================================================
+            
 
             Sheet variantSheet =
                     outputWorkbook.createSheet("Variant_Hit_Rates");
@@ -291,9 +280,7 @@ public class CLQEHitAnalysis {
                 r.createCell(4).setCellValue(rate);
             }
 
-            // =================================================
-            // SHEET 2: SUCCESS DISTRIBUTION
-            // =================================================
+            
 
             Sheet distributionSheet =
                     outputWorkbook.createSheet(
@@ -324,9 +311,7 @@ public class CLQEHitAnalysis {
             totalRow.createCell(2).setCellValue(
                     totalQueries == 0 ? 0 : 100.0);
 
-            // =================================================
-            // SHEET 3: CANONICAL VS VARIANTS
-            // =================================================
+            
 
             Sheet comparisonSheet =
                     outputWorkbook.createSheet(
@@ -380,9 +365,7 @@ public class CLQEHitAnalysis {
                 }
             }
 
-            // =================================================
-            // COLUMN WIDTHS
-            // =================================================
+            
 
             for (int c = 0; c < 5; c++) {
                 variantSheet.setColumnWidth(c, 5500);
@@ -404,9 +387,7 @@ public class CLQEHitAnalysis {
                 detailSheet.setColumnWidth(c, 5500);
             }
 
-            // =================================================
-            // SAVE OUTPUT
-            // =================================================
+            
 
             try (FileOutputStream fos =
                          new FileOutputStream(OUTPUT_FILE)) {
@@ -415,9 +396,7 @@ public class CLQEHitAnalysis {
             }
         }
 
-        // =====================================================
-        // CONSOLE SUMMARY
-        // =====================================================
+        
 
         System.out.println();
         System.out.println(
@@ -493,9 +472,7 @@ public class CLQEHitAnalysis {
         System.out.println("ANALYSIS COMPLETED SUCCESSFULLY");
     }
 
-    // =====================================================
-    // UTILITIES
-    // =====================================================
+    
 
     private static int findColumn(
             Row header,

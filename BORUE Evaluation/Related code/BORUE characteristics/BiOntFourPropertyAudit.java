@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
@@ -18,14 +18,10 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-/**
- * Counts explicitly asserted property axioms in BiOnt.owl (no reasoner).
- * Writes an Excel workbook with the four Table X statistics and details.  // change later
- * Requires OWLAPI and Apache POI (poi + poi-ooxml) on the Eclipse build path.
- */
+
 public class BiOntFourPropertyAudit {
 
-    // EDIT THESE TWO PATHS ONLY IF YOUR FILES ARE STORED ELSEWHERE.
+    
     private static final String ONTOLOGY_PATH = "D:\\BORUE\\BiOnt.owl";
     private static final String OUTPUT_XLSX =   "D:\\BORUE\\BiOnt_Four_Property_Audit.xlsx";
 
@@ -59,7 +55,7 @@ public class BiOntFourPropertyAudit {
                 counts.put(property, 0L);
             }
 
-            // Each matching explicitly asserted data-property axiom counts once.
+            
             for (OWLDataPropertyAssertionAxiom axiom : ontology.getAxioms(AxiomType.DATA_PROPERTY_ASSERTION)) {
                 if (!axiom.getProperty().isAnonymous()) {
                     String name = axiom.getProperty().asOWLDataProperty().getIRI().getShortForm();
@@ -69,7 +65,7 @@ public class BiOntFourPropertyAudit {
                 }
             }
 
-            // Each matching explicitly asserted object-property axiom counts once.
+            
             for (OWLObjectPropertyAssertionAxiom axiom : ontology.getAxioms(AxiomType.OBJECT_PROPERTY_ASSERTION)) {
                 if (!axiom.getProperty().isAnonymous()) {
                     String name = axiom.getProperty().asOWLObjectProperty().getIRI().getShortForm();

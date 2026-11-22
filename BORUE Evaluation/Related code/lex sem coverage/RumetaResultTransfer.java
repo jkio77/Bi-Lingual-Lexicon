@@ -1,5 +1,5 @@
-package org.borue;
-//...................3 third in clqe line
+package BORUE;
+
 
 
 import java.io.FileInputStream;
@@ -15,17 +15,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class RumetaResultTransfer {
 
-    private static final String DIRECTORY =
-            "D:\\BORUE\\";
+    private static final String DIRECTORY = "D:\\BORUE\\";
 
-    private static final String SOURCE_FILE =
-            DIRECTORY + "Rumeta_Result.xlsx";
+    private static final String SOURCE_FILE = DIRECTORY + "Rumeta_Result.xlsx";
 
-    private static final String TARGET_FILE =
-            DIRECTORY + "NewTestBenchSort.xlsx";
+    private static final String TARGET_FILE = DIRECTORY + "NewTestBenchSort.xlsx";
 
-    private static final String OUTPUT_FILE =
-            DIRECTORY + "NewTestBenchSort_Updated.xlsx";
+    private static final String OUTPUT_FILE =  DIRECTORY + "NewTestBenchSort_Updated.xlsx";
 
     private static final String[] MATCH_COLUMNS = {
             "var1", "var2", "var3",
@@ -74,7 +70,7 @@ public class RumetaResultTransfer {
             Map<String, Integer> targetHeaders =
                     readHeaders(targetSheet.getRow(0), formatter);
 
-            // Validate all required columns
+            
             for (String column : MATCH_COLUMNS) {
                 requireColumn(sourceHeaders, column);
                 requireColumn(targetHeaders, column);
@@ -84,7 +80,7 @@ public class RumetaResultTransfer {
                 requireColumn(sourceHeaders, column);
             }
 
-            // Create missing result columns in target
+            
             Row targetHeader = targetSheet.getRow(0);
 
             int nextColumn = targetHeader.getLastCellNum();
@@ -101,7 +97,7 @@ public class RumetaResultTransfer {
                 }
             }
 
-            // STEP 1: Index source rows using six-column key
+            
             Map<String, String[]> sourceIndex =
                     new HashMap<String, String[]>();
 
@@ -115,7 +111,7 @@ public class RumetaResultTransfer {
                 String key = buildKey(
                         row, sourceHeaders, formatter);
 
-                // Retain first occurrence only
+            
                 if (sourceIndex.containsKey(key)) {
                     duplicateKeys++;
                     continue;
@@ -141,7 +137,7 @@ public class RumetaResultTransfer {
                 sourceIndex.put(key, results);
             }
 
-            // STEP 2: Match target rows and transfer results
+            
             for (int i = 1; i <= targetSheet.getLastRowNum(); i++) {
 
                 Row row = targetSheet.getRow(i);
@@ -157,7 +153,7 @@ public class RumetaResultTransfer {
                     continue;
                 }
 
-                // Write six extracted values
+                
                 for (int j = 0; j < RESULT_COLUMNS.length; j++) {
 
                     int columnIndex =
@@ -175,7 +171,7 @@ public class RumetaResultTransfer {
                 matchedRows++;
             }
 
-            // STEP 3: Save updated workbook
+            
             try (FileOutputStream fos =
                          new FileOutputStream(OUTPUT_FILE)) {
 
@@ -183,7 +179,7 @@ public class RumetaResultTransfer {
             }
         }
 
-        // STEP 4: Console summary
+        
         System.out.println();
         System.out.println("========== RUMETA TRANSFER SUMMARY ==========");
         System.out.println("Source rows: " + sourceRows);
@@ -197,7 +193,7 @@ public class RumetaResultTransfer {
         System.out.println("PROCESS COMPLETED SUCCESSFULLY");
     }
 
-    // Read column names from header row
+    
     private static Map<String, Integer> readHeaders(
             Row header, DataFormatter formatter) {
 
@@ -222,7 +218,7 @@ public class RumetaResultTransfer {
         return headers;
     }
 
-    // Ensure required column exists
+    
     private static void requireColumn(
             Map<String, Integer> headers, String name) {
 
@@ -232,7 +228,7 @@ public class RumetaResultTransfer {
         }
     }
 
-    // Build exact six-column comparison key
+    
     private static String buildKey(
             Row row,
             Map<String, Integer> headers,
@@ -250,7 +246,7 @@ public class RumetaResultTransfer {
                     ? ""
                     : formatter.formatCellValue(cell);
 
-            // Length prefix prevents ambiguous concatenation
+            
             key.append(value.length())
                .append(':')
                .append(value);
@@ -259,7 +255,7 @@ public class RumetaResultTransfer {
         return key.toString();
     }
 
-    // Extract first comma-separated value
+    
     private static String extractFirstValue(String value) {
 
         if (value == null || value.isEmpty()) {

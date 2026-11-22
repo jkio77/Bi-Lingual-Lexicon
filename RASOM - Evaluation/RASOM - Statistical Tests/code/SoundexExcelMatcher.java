@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,11 +33,8 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 
 
 public class SoundexExcelMatcher {
-/* this file will pick excel file of your choice and write another file with words 
- * retrieved from ontology using soundex code matcher. Remember, it will return whatever soundex
- * can and then you will have to use ExcelSoundexTruncator to get results to top 10
- * 
- */
+
+
 
     public static void main(String[] args) {
 
@@ -57,9 +54,7 @@ public class SoundexExcelMatcher {
 
 
 
-            System.out.println(
-                    "Ontology loaded successfully"
-            );
+            System.out.println("Ontology loaded successfully");
 
 
 
@@ -68,8 +63,7 @@ public class SoundexExcelMatcher {
 
 
 
-            String baseIRI =
-                    "http://localhost:3030/BiOnt.owl#";
+            String baseIRI =  "http://localhost:3030/BiOnt.owl#";
 
 
 
@@ -426,11 +420,11 @@ public class SoundexExcelMatcher {
 
 
                 Cell outputCell =
-                        row.getCell(i + 8); // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column 
+                        row.getCell(i + 8); 
 
                 if(outputCell == null) {
 
-                    outputCell = row.createCell(i + 8); // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+                    outputCell = row.createCell(i + 8); 
 
                 }
 

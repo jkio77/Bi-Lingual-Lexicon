@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,12 +30,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLLiteral;
 
 import org.semanticweb.owlapi.search.EntitySearcher;
-/*
- * This class bring results for matching values from borue in excel file
- * with Refined Soundex algorithm
- * it will file what ever it finds then if you wan to cut results to 10 use
- * ExcelSoundexTruncator
- */
+
 
 public class RefSoundExcelMatcher {
 
@@ -429,14 +424,14 @@ public class RefSoundExcelMatcher {
 
 
                 Cell outputCell =
-                        row.getCell(i + 8);  // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column 
+                        row.getCell(i + 8);  
 
 
 
                 if(outputCell == null) {
 
                     outputCell =
-                            row.createCell(i + 8); // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+                            row.createCell(i + 8); 
                 }
 
 

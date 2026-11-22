@@ -1,8 +1,7 @@
 package org.coas.ui.bean;
 
 public class RuMetA {
-//....backbone of fuzzy string matching RUMETA
-	//.....Ruman Urdu MEtaphone Algorithm
+
 	
 
 		  private static final String VOWELS = "AEIOU";
@@ -10,7 +9,7 @@ public class RuMetA {
 		  int index = 0;
 		  
 	    	  
-		  public RuMetA(){}  // default constructor
+		  public RuMetA(){}  
 		  
 		  public boolean isRomanMetaphoneEqual(String v1, String v2)
 		  {
@@ -18,8 +17,7 @@ public class RuMetA {
 			  String code1;
 			  String code2;
 			
-			  //preprocessing.......................................
-		//    Source: http://www.javaforschool.com/788673-program-to-remove-duplicate-characters-from-a-word/#ixzz3MYzaIs5x
+
 			  //.....................................................
 			  
 			  code1 = encodeRoman(v1);
@@ -45,8 +43,8 @@ public class RuMetA {
 			  if (value == null) 
 			  return null;
 	          	   
-			  index = 0; // resetting index value for successive calls
-		      this.encodeString = ""; // resetting encode string value for successive calls
+			  index = 0; 
+		      this.encodeString = ""; 
 			  
 		   
 			  while ( index <= value.length() - 1) 
@@ -66,81 +64,69 @@ public class RuMetA {
 		              this.encodeString = this.encodeString + 'B';
 		        	      ++index;
 		        	      break;
-		        	      //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'B') ? this.encodeString : this.encodeString + 'B';
-		        	      //	index = charAt(value, index + 1) == 'B' ? index + 2 : index + 1;
+		      
 		          case 'D': 
 			    	   this.encodeString += 'D' ;
 			    	   ++index;
 			    	   break;
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'D') ? this.encodeString : this.encodeString + 'D';
-			    	   //index = charAt(value, index + 1) == 'D' ? index + 2 : index + 1;
+			  
 			       case 'F': 
 			    	   this.encodeString  += 'F';
 			    	   ++index;
 			    	   break;
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'F') ? this.encodeString : this.encodeString + 'F';
-			    	   //index = charAt(value, index + 1) == 'F' ? index + 2 : index + 1;
+			  
 			    	   case 'G': 
 			    	   this.encodeString = this.encodeString + 'G';
 			    	   ++index; 
 			    	   break;
-			    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'G') ? this.encodeString : this.encodeString + 'G';
-			    	   //index = charAt(value, index + 1) == 'G' ? index + 2 : index + 1;
+			  
 			    	   case 'J': 
 				    	   this.encodeString  += 'J';
 				    	   ++index;
 				    	   break;
-				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'J') ? this.encodeString : this.encodeString + 'J';
-				    	   //index = charAt(value, index + 1) == 'J' ? index + 2 : index + 1;
+				    	  
 			    		case 'L': 
 				       		this.encodeString += 'L';
 					        ++index;
 					        break;
-				       		//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'L') ? this.encodeString : this.encodeString + 'L';
-				       		//index = charAt(value, index + 1) == 'L' ? index + 2 : index + 1;
+				       	
 					        
 				       case 'M': 
 				    	   this.encodeString += 'M';
 				    	   ++index;
 				    	   break;
-				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'M') ? this.encodeString : this.encodeString + 'M';
-				    	   //index = charAt(value, index + 1) == 'M' ? index + 2 : index + 1;
+				    	
 				       case 'N': 
 				    	   this.encodeString += 'N';
 				    	   ++index;
 				    	   break;
-				    	   // this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'N') ? this.encodeString : this.encodeString + 'N';
-				    	   //index = charAt(value, index + 1) == 'N' ? index + 2 : index + 1;
+				    	
 					   
 				       case 'P': 
 				    	   this.encodeString += 'P';
 				    	   ++index;
 				    	   break;
-				    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'P') ? this.encodeString : this.encodeString + 'P'; 
-				    	   //index = charAt(value, index + 1) == 'P' ? index + 2 : index + 1;
+				    	
 
 				       case 'Y': 
 					        this.encodeString  += 'Y';
-					        //index = charAt(value, index + 1) == 'Y' ? index + 2 : index + 1;
+					    
 					        ++index;
 					        break;
 				       case 'R': 
 					    	  this.encodeString += 'R';
-					    	  //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'R') ? this.encodeString : this.encodeString + 'R';
-					    	  //index = charAt(value, index + 1) == 'R' ? index + 2 : index + 1;
+					    
 				            ++index;
 					    	  break;
 					      case 'S': 
-					    	  //this.encodeString =this.encodeString + 'S';
-					    	 // this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'S') ? this.encodeString : this.encodeString + 'S';     
+					    
 					    	  this.encodeString += 'S';
-					    	 // index = charAt(value, index + 1) == 'S' ? index + 2 : index + 1;
+					    
 					      ++index; 
 					    	  break;
 					       case 'T': 
 					    	   this.encodeString += 'T';
-					    	   //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'T') ? this.encodeString : this.encodeString + 'T'; 
-					    	   //index = charAt(value, index + 1) == 'T' ? index + 2 : index + 1;
+					    
 					       ++index;
 					    	   break;
 				       
@@ -155,21 +141,20 @@ public class RuMetA {
 			    	   		this.encodeString += 'K';
 			    	   		index = charAt(value, index + 1) == 'Q' ? index + 2 : index + 1;
 			    	   		break;
-			    	         //this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
-			    	         //index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
+			    	    
 			        case 'Q': 
 			    	  	     this.encodeString += 'K';
          			    	 index = charAt(value, index + 1) == 'K' ? index + 2 : index + 1;
          			    	 break;
-         			    	 //	this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K'; 
+         			    
 			    	    case 'V': 
 			    	    			this.encodeString = this.encodeString + 'W';
-			    	    			//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
+			    	    
 			    	    			index = (charAt(value, index + 1) == 'W' ) ? index + 2 : index + 1;
 			    	    			break;
 			    	    case 'W': 
 			    	    			this.encodeString +=  'W';
-			    	    			//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'W') ? this.encodeString : this.encodeString + 'W';
+			    	    
 			    	    			index = (charAt(value, index + 1) == 'V' ) ? index + 2 : index + 1;
 			    	    			break;
 			    	    case 'X': 
@@ -178,13 +163,13 @@ public class RuMetA {
 			    	    			break;
 			         case 'Z': 
 			        	 		this.encodeString += 'Z';
-			        	 		//this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'Z') ? this.encodeString : this.encodeString + 'Z';
+			        	
 			        	 		index = (charAt(value, index + 1) == 'X' ) ? index + 2 : index + 1;
 			        	 		break;
 			       default: 
 			        
-		        } //switch end
-		      } //while end
+		        } 
+		      } 
 		    
 			  
 		    
@@ -192,7 +177,7 @@ public class RuMetA {
 		    
 		    return this.encodeString;
 		    
-		   } // encode end
+		   } 
 		   
 		  private int handleAEIOUY(String value, int i)
 		   {
@@ -218,7 +203,7 @@ public class RuMetA {
 		        } 
 			   
 			  //.............CASE 2. WE ARE AT THE LAST CHARACTER..................................................................................
-			   if (i == value.length() - 1 ) // we are at the last character 
+			   if (i == value.length() - 1 ) 
 			   {
 				      if (charAt(value,i) == 'A')
 				      {
@@ -247,9 +232,7 @@ public class RuMetA {
 			    	      
 			 	  
 				   //..........applies to any place.....CASE 3 2ND TO 2ND LAST...............................
-			   //System.out.println("stuck here" + value);
-			   	 //  System.out.println(i+1);
-				   //System.out.println(value.length());
+			   
 				   
 				   if (i + 1 < value.length()) 
 				      {
@@ -266,12 +249,7 @@ public class RuMetA {
 								   return i;
 					      
 					        		   
-					     /*
-					        case "AH":
-					        	this.encodeString += 'A';
-					        	i=i+2;
-					        	return i;
-					        	*/
+				
 					        	}
 					
 					    if (charAt(value,i) == 'O' || charAt(value, i) == 'U')
@@ -328,7 +306,7 @@ public class RuMetA {
 	         }
 		     else
 			    {
-				//this.encodeString = this.encodeString + 'K';
+				
 				this.encodeString = (charAt(encodeString,encodeString.length()-1) == 'K') ? this.encodeString : this.encodeString + 'K';
 				this.index = this.index + 1;
 				}
@@ -518,17 +496,7 @@ public class RuMetA {
 			        return input;
 			    }
 
-			    /*
-			     * =========================================================
-			     * NUMERIC ROMAN-URDU RULES
-			     * =========================================================
-			     *
-			     * Add new rules here only.
-			     *
-			     * IMPORTANT:
-			     * Longer numbers are automatically checked before
-			     * shorter numbers.
-			     */
+			    
 			    java.util.Map<String, String> rules =
 			            new java.util.HashMap<String, String>();
 
@@ -547,13 +515,7 @@ public class RuMetA {
 			    rules.put("30", "tes");
 
 
-			    /*
-			     * Sort numeric rules by length.
-			     *
-			     * Example:
-			     * 20 must be tested before 2.
-			     * 100 would be tested before 10 and 1.
-			     */
+			    
 			    java.util.List<String> numbers =
 			            new java.util.ArrayList<String>(rules.keySet());
 
@@ -576,37 +538,10 @@ public class RuMetA {
 			    String result = input;
 
 
-			    /*
-			     * =========================================================
-			     * PROCESS EACH RULE
-			     * =========================================================
-			     *
-			     * A numeric rule is converted when:
-			     *
-			     * 1. It touches a letter on at least one side.
-			     *
-			     * 2. It is NOT touching another digit.
-			     *
-			     * Therefore:
-			     *
-			     * la4       -> lachar
-			     * 4bar      -> charbar
-			     * a4b       -> acharb
-			     * 2no       -> dono
-			     * kha20     -> khabes
-			     * 20yar     -> besyar
-			     * zabar10t  -> zabardust
-			     *
-			     * But:
-			     *
-			     * 4         -> 4
-			     * tum 4 bar -> tum 4 bar
-			     * 44bar     -> 44bar
-			     * la44      -> la44
-			     * 22no      -> 22no
-			     * abc44xyz  -> abc44xyz
-			     */
-			    for (String number : numbers) {
+			    
+			    
+				
+				for (String number : numbers) {
 
 			        String replacement = rules.get(number);
 
@@ -628,10 +563,7 @@ public class RuMetA {
 			    }
 
 
-			    /*
-			     * Remove punctuation / special characters.
-			     * Keep letters, digits and whitespace.
-			     */
+			    
 			    result = result.replaceAll(
 			            "[^A-Za-z0-9\\s]",
 			            ""

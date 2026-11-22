@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,67 +9,11 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//...............This is 7th and last step of statistical pipeline
 
-/**
- * ============================================================
- * FinalStatisticalSummaryGenerator
- * ============================================================
- *
- * PURPOSE
- * ------------------------------------------------------------
- *
- * Combines the major statistical outputs of the intrinsic
- * phonetic evaluation into one publication-oriented workbook.
- *
- *
- * INPUT FILES
- * ------------------------------------------------------------
- *
- * 1. DescriptiveStatistics.xlsx
- *
- * 2. BootstrapConfidenceIntervals.xlsx
- *
- * 3. WilcoxonHolmCorrected.xlsx
- *
- * 4. HitFailureMcNemarResults.xlsx
- *
- *
- * OUTPUT
- * ------------------------------------------------------------
- *
- * FinalStatisticalSummary.xlsx
- *
- *
- * OUTPUT SHEETS
- * ------------------------------------------------------------
- *
- * Sheet 1:
- * Overall Summary
- *
- * Sheet 2:
- * Wilcoxon Summary
- *
- * Sheet 3:
- * Hit McNemar Summary
- *
- *
- * IMPORTANT
- * ------------------------------------------------------------
- *
- * This class DOES NOT perform new statistical tests.
- *
- * It only consolidates results already produced by the
- * previous validated analysis classes.
- *
- * ============================================================
- */
+
+
 public class FinalStatisticalSummaryGenerator {
 
-
-    // ========================================================
-    // FILE PATHS
-    // ========================================================
 
     private static final String BASE_PATH =
             "D:/BORUE/";
@@ -104,9 +48,6 @@ public class FinalStatisticalSummaryGenerator {
             new DataFormatter();
 
 
-    // ========================================================
-    // MAIN
-    // ========================================================
 
     public static void main(String[] args) {
 
@@ -116,9 +57,7 @@ public class FinalStatisticalSummaryGenerator {
 
             System.out.println();
 
-            System.out.println(
-                    "=============================================="
-            );
+            System.out.println("==============================================");
 
             System.out.println(
                     "FINAL STATISTICAL SUMMARY GENERATOR"
@@ -131,9 +70,7 @@ public class FinalStatisticalSummaryGenerator {
             System.out.println();
 
 
-            // ------------------------------------------------
-            // Read descriptive results.
-            // ------------------------------------------------
+            
 
             Map<String, DescriptiveResult> descriptive =
                     readDescriptiveResults();
@@ -145,54 +82,38 @@ public class FinalStatisticalSummaryGenerator {
             );
 
 
-            // ------------------------------------------------
-            // Read bootstrap confidence intervals.
-            // ------------------------------------------------
+            
 
             readBootstrapResults(
                     descriptive
             );
 
 
-            // ------------------------------------------------
-            // Create final workbook.
-            // ------------------------------------------------
-
+            
             XSSFWorkbook outputWorkbook =
                     new XSSFWorkbook();
 
 
-            // =================================================
-            // SHEET 1
-            // =================================================
-
+            
             createOverallSummary(
                     outputWorkbook,
                     descriptive
             );
 
 
-            // =================================================
-            // SHEET 2
-            // =================================================
-
+            
             createWilcoxonSummary(
                     outputWorkbook
             );
 
 
-            // =================================================
-            // SHEET 3
-            // =================================================
-
+            
             createMcNemarSummary(
                     outputWorkbook
             );
 
 
-            // ------------------------------------------------
-            // Save.
-            // ------------------------------------------------
+            
 
             FileOutputStream output =
                     new FileOutputStream(
@@ -212,17 +133,11 @@ public class FinalStatisticalSummaryGenerator {
 
             System.out.println();
 
-            System.out.println(
-                    "=============================================="
-            );
+            System.out.println("==============================================");
 
-            System.out.println(
-                    "FINAL SUMMARY GENERATED SUCCESSFULLY"
-            );
+            System.out.println("FINAL SUMMARY GENERATED SUCCESSFULLY");
 
-            System.out.println(
-                    "=============================================="
-            );
+            System.out.println("==============================================");
 
             System.out.println();
 
@@ -271,9 +186,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // READ DESCRIPTIVE RESULTS
-    // ========================================================
+    
 
     private static Map<String, DescriptiveResult>
             readDescriptiveResults()
@@ -410,9 +323,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // READ BOOTSTRAP RESULTS
-    // ========================================================
+    
 
     private static void readBootstrapResults(
             Map<String, DescriptiveResult> descriptive)
@@ -499,17 +410,7 @@ public class FinalStatisticalSummaryGenerator {
             }
 
 
-            /*
-             * Bootstrap file:
-             *
-             * A Algorithm
-             * B Metric
-             * C ObservedEstimate
-             * D CI95Lower
-             * E CI95Upper
-             * F BootstrapMean
-             * G BootstrapSE
-             */
+            
 
             double lower =
                     getDouble(
@@ -635,9 +536,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // CREATE OVERALL SUMMARY
-    // ========================================================
+    
 
     private static void createOverallSummary(
             XSSFWorkbook workbook,
@@ -885,9 +784,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // CREATE WILCOXON SUMMARY
-    // ========================================================
+    
 
     private static void createWilcoxonSummary(
             XSSFWorkbook outputWorkbook)
@@ -990,22 +887,7 @@ public class FinalStatisticalSummaryGenerator {
                     );
 
 
-            /*
-             * Source columns:
-             *
-             * B  BaselineAlgorithm
-             * C  Metric
-             * D  PairedConcepts
-             * G  RomanMean
-             * H  BaselineMean
-             * I  MeanDifference
-             * L  WStatistic
-             * M  Z
-             * N  RawPValue
-             * O  RankBiserialCorrelation
-             * R  HolmAdjustedPValue
-             * S  SignificantAt0.05
-             */
+            
 
 
             target.createCell(0)
@@ -1129,9 +1011,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // CREATE McNEMAR SUMMARY
-    // ========================================================
+    
 
     private static void createMcNemarSummary(
             XSSFWorkbook outputWorkbook)
@@ -1240,28 +1120,7 @@ public class FinalStatisticalSummaryGenerator {
                     );
 
 
-            /*
-             * HitFailureMcNemarResults.xlsx:
-             *
-             * A ReferenceAlgorithm
-             * B BaselineAlgorithm
-             * C PairedConcepts
-             * D BothHit
-             * E RomanHitBaselineFail
-             * F RomanFailBaselineHit
-             * G BothFail
-             * H DiscordantPairs
-             * I RomanConceptHitRate
-             * J BaselineConceptHitRate
-             * K HitRateDifference
-             * L McNemarChiSquare
-             * M RawPValue
-             * N MatchedPairsOddsRatio
-             * O HolmRank
-             * P HolmMultiplier
-             * Q HolmAdjustedPValue
-             * R SignificantAt0.05
-             */
+            
 
 
             target.createCell(0)
@@ -1403,9 +1262,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // GET STRING
-    // ========================================================
+    
 
     private static String getString(
             Row row,
@@ -1434,11 +1291,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // GET DOUBLE
-    //
-    // Compatible with older Apache POI.
-    // ========================================================
+    
 
     private static double getDouble(
             Row row,
@@ -1507,9 +1360,7 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // GET BOOLEAN
-    // ========================================================
+    
 
     private static boolean getBoolean(
             Row row,
@@ -1561,9 +1412,8 @@ public class FinalStatisticalSummaryGenerator {
     }
 
 
-    // ========================================================
-    // DESCRIPTIVE RESULT CONTAINER
-    // ========================================================
+    
+
 
     private static class DescriptiveResult {
 

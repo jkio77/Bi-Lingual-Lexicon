@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,134 +13,13 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//...............This is 4th step of statistical pipeline
 
-/**
- * ============================================================
- * WilcoxonPairwiseAnalyzer
- * ============================================================
- *
- * PURPOSE
- * ------------------------------------------------------------
- *
- * Performs paired Wilcoxon signed-rank tests comparing:
- *
- *      RASOM
- *
- * against each of the other 9 phonetic algorithms.
- *
- *
- * IMPORTANT: CONCEPT-LEVEL ANALYSIS
- * ------------------------------------------------------------
- *
- * Dataset:
- *
- *      NC = 2441 concepts
- *      NT = 10161 valid query variants per algorithm
- *      mc = 2 to 6 available variants per concept
- *
- * Empty Query cells are structural placeholders and are
- * excluded completely from the analysis.
- *
- * A genuine non-empty query with zero retrieved candidates
- * remains a valid observation.
- *
- *
- * CONCEPT-LEVEL AGGREGATION
- * ------------------------------------------------------------
- *
- * For each algorithm and concept, this class calculates:
- *
- *      Mean Precision across available variants
- *      Mean Recall across available variants
- *      Mean F1 across available variants
- *      Mean Candidate Set Size across available variants
- *
- * If concept c contains mc available variants:
- *
- *      ConceptMean =
- *
- *          Sum(metric over available variants) / mc
- *
- * The Wilcoxon signed-rank test is then performed on the
- * resulting 2441 paired concept-level observations.
- *
- *
- * METRICS TESTED
- * ------------------------------------------------------------
- *
- * 1. Precision
- * 2. Recall
- * 3. F1
- * 4. Candidate Set Size
- *
- *
- * WILCOXON TEST
- * ------------------------------------------------------------
- *
- * Two-sided paired Wilcoxon signed-rank test.
- *
- * Difference:
- *
- *      RASOM - Baseline
- *
- * Zero differences are excluded.
- *
- * Ties in absolute differences receive average ranks.
- *
- * For the large sample size, the p-value is calculated using
- * a normal approximation with:
- *
- *      - tie correction
- *      - continuity correction
- *
- *
- * EFFECT SIZE
- * ------------------------------------------------------------
- *
- * Rank-biserial correlation:
- *
- *      RBC = (W+ - W-) / (W+ + W-)
- *
- * Positive RBC:
- *
- *      RASOM tends to have larger values.
- *
- * Negative RBC:
- *
- *      RASOM tends to have smaller values.
- *
- * For Candidate Set Size, smaller values indicate greater
- * selectivity, so a negative effect favors RASOM
- * in terms of candidate-set compactness.
- *
- *
- * MULTIPLE COMPARISONS
- * ------------------------------------------------------------
- *
- * This class produces RAW p-values.
- *
- * Holm correction is performed separately in:
- *
- *      HolmCorrection.java
- *
- *
- * OUTPUT
- * ------------------------------------------------------------
- *
- * F:/Eclipse/EclipseHome/DS_TestBench/
- * WilcoxonPairwiseResults.xlsx
- *
- * 9 baselines x 4 metrics = 36 tests.
- *
- * ============================================================
- */
+
+
 public class WilcoxonPairwiseAnalyzer {
 
 
-    // ========================================================
-    // FILE PATHS
-    // ========================================================
+
 
     private static final String INPUT_FILE =
             "D:/BORUE/PhoneticEvaluation.xlsx";
@@ -150,17 +29,11 @@ public class WilcoxonPairwiseAnalyzer {
             "D:/BORUE/WilcoxonPairwiseResults.xlsx";
 
 
-    // ========================================================
-    // REFERENCE ALGORITHM
-    // ========================================================
 
     private static final String REFERENCE_ALGORITHM =
             "RASOM";
 
 
-    // ========================================================
-    // EXPECTED DATA STRUCTURE
-    // ========================================================
 
     private static final int EXPECTED_ALGORITHMS = 10;
 
@@ -169,34 +42,27 @@ public class WilcoxonPairwiseAnalyzer {
     private static final int EXPECTED_VALID_VARIANTS = 10161;
 
 
-    // ========================================================
-    // INPUT COLUMNS
-    //
-    // ZERO-BASED Apache POI indexing
-    // ========================================================
 
-    private static final int ALGORITHM_COLUMN = 0;        // A
+    private static final int ALGORITHM_COLUMN = 0;        
 
-    private static final int CONCEPT_COLUMN = 1;          // B
+    private static final int CONCEPT_COLUMN = 1;          
 
-    private static final int QUERY_COLUMN = 3;            // D
+    private static final int QUERY_COLUMN = 3;            
 
-    private static final int RETRIEVED_COUNT_COLUMN = 6; // G
+    private static final int RETRIEVED_COUNT_COLUMN = 6; 
 
-    private static final int PRECISION_COLUMN = 8;        // I
+    private static final int PRECISION_COLUMN = 8;       
 
-    private static final int RECALL_COLUMN = 9;           // J
+    private static final int RECALL_COLUMN = 9;          
 
-    private static final int F1_COLUMN = 10;              // K
+    private static final int F1_COLUMN = 10;             
 
 
     private static final DataFormatter DATA_FORMATTER =
             new DataFormatter();
 
 
-    // ========================================================
-    // MAIN
-    // ========================================================
+    
 
     public static void main(String[] args) {
 
@@ -204,24 +70,15 @@ public class WilcoxonPairwiseAnalyzer {
 
             System.out.println();
 
-            System.out.println(
-                    "=============================================="
-            );
+            System.out.println("==============================================");
 
-            System.out.println(
-                    "WILCOXON PAIRWISE ANALYZER"
-            );
+            System.out.println("WILCOXON PAIRWISE ANALYZER");
 
-            System.out.println(
-                    "=============================================="
-            );
+            System.out.println("==============================================");
 
             System.out.println();
 
 
-            // ------------------------------------------------
-            // Read and aggregate data by concept.
-            // ------------------------------------------------
 
             Map<String, AlgorithmData> algorithms =
                     readEvaluationFile();
@@ -246,9 +103,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Check RASOM exists.
-            // ------------------------------------------------
+           
 
             AlgorithmData romanData =
                     algorithms.get(
@@ -282,31 +137,20 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Create output workbook.
-            // ------------------------------------------------
-
             XSSFWorkbook outputWorkbook =
                     new XSSFWorkbook();
 
 
-            Sheet outputSheet =
-                    outputWorkbook.createSheet(
-                            "Wilcoxon Pairwise"
-                    );
+            Sheet outputSheet = outputWorkbook.createSheet("Wilcoxon Pairwise");
 
 
-            createHeader(
-                    outputSheet
-            );
+            createHeader(outputSheet);
 
 
             int outputRow = 1;
 
 
-            // ------------------------------------------------
-            // Compare RASOM against each baseline.
-            // ------------------------------------------------
+            
 
             for (Map.Entry<String, AlgorithmData> entry
                     : algorithms.entrySet()) {
@@ -329,23 +173,14 @@ public class WilcoxonPairwiseAnalyzer {
 
                 System.out.println();
 
-                System.out.println(
-                        "=============================================="
-                );
+                System.out.println("==============================================");
 
-                System.out.println(
-                        "RASOM vs "
-                        + baselineName
-                );
+                System.out.println("RASOM vs " + baselineName);
 
-                System.out.println(
-                        "=============================================="
-                );
+                System.out.println("==============================================");
 
 
-                // --------------------------------------------
-                // PRECISION
-                // --------------------------------------------
+                
 
                 outputRow =
                         analyzeMetric(
@@ -359,9 +194,7 @@ public class WilcoxonPairwiseAnalyzer {
                         );
 
 
-                // --------------------------------------------
-                // RECALL
-                // --------------------------------------------
+                
 
                 outputRow =
                         analyzeMetric(
@@ -375,9 +208,7 @@ public class WilcoxonPairwiseAnalyzer {
                         );
 
 
-                // --------------------------------------------
-                // F1
-                // --------------------------------------------
+                
 
                 outputRow =
                         analyzeMetric(
@@ -391,9 +222,7 @@ public class WilcoxonPairwiseAnalyzer {
                         );
 
 
-                // --------------------------------------------
-                // CANDIDATE SET SIZE
-                // --------------------------------------------
+                
 
                 outputRow =
                         analyzeMetric(
@@ -408,9 +237,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Freeze heading.
-            // ------------------------------------------------
+            
 
             outputSheet.createFreezePane(
                     0,
@@ -418,9 +245,7 @@ public class WilcoxonPairwiseAnalyzer {
             );
 
 
-            // ------------------------------------------------
-            // Auto-size.
-            // ------------------------------------------------
+            
 
             for (int column = 0;
                  column < 15;
@@ -432,9 +257,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Save workbook.
-            // ------------------------------------------------
+            
 
             FileOutputStream output =
                     new FileOutputStream(
@@ -494,14 +317,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // READ EVALUATION FILE
-    //
-    // IMPORTANT:
-    //
-    // Empty Query rows are structural placeholders.
-    // They are excluded BEFORE concept-level aggregation.
-    // ========================================================
+    
 
     private static Map<String, AlgorithmData>
             readEvaluationFile()
@@ -533,9 +349,7 @@ public class WilcoxonPairwiseAnalyzer {
         int blankQueryRowsSkipped = 0;
 
 
-        // ----------------------------------------------------
-        // Row 0 = heading.
-        // ----------------------------------------------------
+        
 
         for (int rowNumber = 1;
              rowNumber <= sheet.getLastRowNum();
@@ -567,13 +381,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // CRITICAL CORRECTION
-            //
-            // Blank Query = unavailable spelling variant.
-            //
-            // It is NOT a retrieval failure.
-            // ------------------------------------------------
+            
 
             String query =
                     getString(
@@ -627,9 +435,7 @@ public class WilcoxonPairwiseAnalyzer {
                     );
 
 
-            // ------------------------------------------------
-            // Algorithm container.
-            // ------------------------------------------------
+            
 
             AlgorithmData algorithmData =
                     algorithms.get(
@@ -650,9 +456,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Concept container.
-            // ------------------------------------------------
+            
 
             ConceptData concept =
                     algorithmData.concepts.get(
@@ -675,13 +479,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Add ONLY valid variant values.
-            //
-            // Note:
-            // retrievedCount may be zero for a genuine query.
-            // Such a query remains in the analysis.
-            // ------------------------------------------------
+            
 
             concept.precisionSum +=
                     precision;
@@ -741,9 +539,7 @@ public class WilcoxonPairwiseAnalyzer {
         );
 
 
-        // ----------------------------------------------------
-        // Validate each algorithm.
-        // ----------------------------------------------------
+        
 
         for (Map.Entry<String, AlgorithmData> entry
                 : algorithms.entrySet()) {
@@ -877,9 +673,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // ANALYZE ONE METRIC
-    // ========================================================
+    
 
     private static int analyzeMetric(
             Sheet sheet,
@@ -899,9 +693,7 @@ public class WilcoxonPairwiseAnalyzer {
                 new ArrayList<Double>();
 
 
-        // ----------------------------------------------------
-        // Pair concepts by ConceptRow.
-        // ----------------------------------------------------
+        
 
         for (Map.Entry<Integer, ConceptData> entry
                 : romanData.concepts.entrySet()) {
@@ -932,11 +724,7 @@ public class WilcoxonPairwiseAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Because every algorithm is evaluated on the
-            // identical master query set, each paired concept
-            // should contain the same number of valid variants.
-            // ------------------------------------------------
+            
 
             if (romanConcept.variantCount
                     != baselineConcept.variantCount) {
@@ -988,16 +776,7 @@ public class WilcoxonPairwiseAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Means shown for descriptive interpretation.
-        //
-        // NOTE:
-        // These are means of the 2441 CONCEPT-LEVEL means.
-        // They need not be numerically identical to the
-        // variant-level macro means from descriptive analysis,
-        // because concepts contain different numbers of
-        // available variants.
-        // ----------------------------------------------------
+        
 
         double romanMean =
                 mean(
@@ -1017,10 +796,7 @@ public class WilcoxonPairwiseAnalyzer {
                 baselineMean;
 
 
-        // ----------------------------------------------------
-        // Wilcoxon.
-        // ----------------------------------------------------
-
+        
         WilcoxonResult result =
                 wilcoxonSignedRank(
                         romanValues,
@@ -1028,9 +804,7 @@ public class WilcoxonPairwiseAnalyzer {
                 );
 
 
-        // ----------------------------------------------------
-        // Console.
-        // ----------------------------------------------------
+        
 
         System.out.println();
 
@@ -1111,9 +885,7 @@ public class WilcoxonPairwiseAnalyzer {
         );
 
 
-        // ----------------------------------------------------
-        // Write Excel row.
-        // ----------------------------------------------------
+        
 
         Row row =
                 sheet.createRow(
@@ -1215,14 +987,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // GET CONCEPT-LEVEL METRIC
-    //
-    // Mean is calculated across the ACTUAL available variants
-    // for that concept:
-    //
-    //      mc = 2 ... 6
-    // ========================================================
+    
 
     private static double getConceptMetric(
             ConceptData concept,
@@ -1279,10 +1044,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // WILCOXON SIGNED-RANK TEST
-    // ========================================================
-
+    
     private static WilcoxonResult wilcoxonSignedRank(
             List<Double> romanValues,
             List<Double> baselineValues) {
@@ -1304,11 +1066,8 @@ public class WilcoxonPairwiseAnalyzer {
         int zeroDifferences = 0;
 
 
-        // ----------------------------------------------------
-        // Build paired differences:
-        //
-        //      d_c = RASOM - Baseline
-        // ----------------------------------------------------
+        
+
 
         for (int i = 0;
              i < romanValues.size();
@@ -1354,9 +1113,7 @@ public class WilcoxonPairwiseAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Sort by absolute difference.
-        // ----------------------------------------------------
+        
 
         Collections.sort(
                 differences,
@@ -1411,15 +1168,7 @@ public class WilcoxonPairwiseAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Assign average ranks to tied absolute differences.
-        //
-        // Also accumulate:
-        //
-        //      sum(t^3 - t)
-        //
-        // for the tie-corrected variance.
-        // ----------------------------------------------------
+        
 
         double tieCorrectionSum =
                 0.0;
@@ -1501,9 +1250,7 @@ public class WilcoxonPairwiseAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Positive and negative rank sums.
-        // ----------------------------------------------------
+        
 
         double wPlus = 0.0;
 
@@ -1542,11 +1289,7 @@ public class WilcoxonPairwiseAnalyzer {
                 );
 
 
-        // ----------------------------------------------------
-        // Rank-biserial correlation.
-        //
-        //      RBC = (W+ - W-) / (W+ + W-)
-        // ----------------------------------------------------
+        
 
         double totalRank =
                 wPlus
@@ -1568,17 +1311,7 @@ public class WilcoxonPairwiseAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Normal approximation.
-        //
-        // Expected W+:
-        //
-        //      n(n+1)/4
-        //
-        // Tie-corrected variance:
-        //
-        // [n(n+1)(2n+1) - 0.5*sum(t^3-t)] / 24
-        // ----------------------------------------------------
+        
 
         double expectedW =
                 n
@@ -1620,11 +1353,7 @@ public class WilcoxonPairwiseAnalyzer {
                 );
 
 
-        // ----------------------------------------------------
-        // Continuity correction.
-        //
-        // Move W+ by 0.5 toward its expected value.
-        // ----------------------------------------------------
+        
 
         double differenceFromMean =
                 wPlus
@@ -1666,24 +1395,7 @@ public class WilcoxonPairwiseAnalyzer {
                 z;
 
 
-        // ----------------------------------------------------
-        // Two-sided p-value.
-        //
-        // IMPORTANT:
-        //
-        // Instead of:
-        //
-        //      2 * (1 - Phi(|z|))
-        //
-        // use:
-        //
-        //      erfc(|z| / sqrt(2))
-        //
-        // This avoids catastrophic cancellation for large |z|
-        // and prevents highly significant p-values from
-        // becoming artificial literal zeros merely because
-        // Phi(|z|) rounded to 1.0.
-        // ----------------------------------------------------
+        
 
         double pValue =
                 erfc(
@@ -1713,21 +1425,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // COMPLEMENTARY ERROR FUNCTION
-    //
-    // Numerical Recipes approximation.
-    //
-    // For x >= 0:
-    //
-    //      erfc(x) = tau
-    //
-    // This is numerically preferable to computing:
-    //
-    //      1 - erf(x)
-    //
-    // for large x.
-    // ========================================================
+    
 
     private static double erfc(
             double x) {
@@ -1802,9 +1500,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // MEAN
-    // ========================================================
+    
 
     private static double mean(
             List<Double> values) {
@@ -1831,9 +1527,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // CREATE OUTPUT HEADER
-    // ========================================================
+    
 
     private static void createHeader(
             Sheet sheet) {
@@ -1876,9 +1570,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // GET STRING CELL
-    // ========================================================
+    
 
     private static String getString(
             Row row,
@@ -1905,11 +1597,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // GET NUMERIC CELL
-    //
-    // Old Apache POI compatible.
-    // ========================================================
+    
 
     private static double getDouble(
             Row row,
@@ -1970,9 +1658,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // ENUM: METRIC TYPE
-    // ========================================================
+    
 
     private enum MetricType {
 
@@ -1986,9 +1672,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // ALGORITHM DATA
-    // ========================================================
+    
 
     private static class AlgorithmData {
 
@@ -1998,9 +1682,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // CONCEPT DATA
-    // ========================================================
+    
 
     private static class ConceptData {
 
@@ -2028,9 +1710,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // DIFFERENCE + RANK
-    // ========================================================
+    
 
     private static class Difference {
 
@@ -2043,9 +1723,7 @@ public class WilcoxonPairwiseAnalyzer {
     }
 
 
-    // ========================================================
-    // WILCOXON RESULT
-    // ========================================================
+    
 
     private static class WilcoxonResult {
 

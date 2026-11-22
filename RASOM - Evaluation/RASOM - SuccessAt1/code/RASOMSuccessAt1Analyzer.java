@@ -1,5 +1,5 @@
-package org.borue;
-//.....................success @ 1 calcuation for rasom only
+package borue;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Locale;
@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/** RASOM-only Success@1 evaluation using the saved, ordered candidate lists. */
+
 public class RASOMSuccessAt1Analyzer {
     private static final String INPUT = "D:/BORUE/RASOM_Result.xlsx";
     private static final String OUTPUT = "D:/BORUE/RASOMSuccessAt1.xlsx";
@@ -30,7 +30,7 @@ public class RASOMSuccessAt1Analyzer {
                 String gold = cell(row, 6);
                 for (int v = 0; v < 6; v++) {
                     String query = cell(row, v);
-                    if (query.isEmpty()) continue; // blank variant is not a trial
+                    if (query.isEmpty()) continue; 
                     trials[v]++;
                     String candidates = cell(row, v + 8);
                     String first = firstCandidate(candidates);
@@ -39,7 +39,7 @@ public class RASOMSuccessAt1Analyzer {
                     if (hasCandidate) retrieved[v]++;
                     if (hit) successes[v]++;
                     Row out = audit.createRow(outRow++);
-                    put(out, 0, r + 1); // physical Excel row number
+                    put(out, 0, r + 1); 
                     put(out, 1, TYPES[v]);
                     put(out, 2, query);
                     put(out, 3, gold);
@@ -87,7 +87,7 @@ public class RASOMSuccessAt1Analyzer {
         return s == null ? "" : s.trim().toLowerCase(Locale.ROOT).replaceAll("\\s+", " ");
     }
 
-    /** A BORUE alternative must occur as a contiguous complete-word sequence. */
+    
     private static boolean relevant(String candidate, String borue) {
         String text = normalize(candidate);
         if (text.isEmpty() || borue == null) return false;

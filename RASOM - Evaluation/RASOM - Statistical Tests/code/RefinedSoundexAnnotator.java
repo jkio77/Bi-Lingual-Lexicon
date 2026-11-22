@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.util.HashSet;
@@ -228,10 +228,7 @@ public class RefinedSoundexAnnotator {
 
 
 
-                /*
-                 * Remove previous refSoundMeta values
-                 */
-
+                
                 EntitySearcher
                 .getDataPropertyValues(
                         individual,

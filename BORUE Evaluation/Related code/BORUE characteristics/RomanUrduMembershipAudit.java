@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,14 +20,14 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
-/** Audits explicitly asserted grammatical memberships and strVal values. */
+
 public class RomanUrduMembershipAudit {
     private static final String INPUT = "D:/BORUE/BiOnt.owl";
     private static final String OUTPUT = "D:/BORUE/RomanUrduMembershipAudit.xlsx";
     private static final String BASE = "http://localhost:3030/BiOnt.owl#";
 
-    // Set to true only if the manuscript counted all asserted descendant
-    // classes, including intermediate categories, rather than leaf classes.
+
+
     private static final boolean COUNT_ALL_DESCENDANT_CLASSES = false;
 
     static class Record {

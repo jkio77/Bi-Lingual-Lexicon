@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,8 +41,7 @@ public class Caverphone1ExcelMatcher {
         try {
 
 
-            String ontologyPath =
-                    "D:/BORUE/BiOnt.owl";
+            String ontologyPath = "D:/BORUE/BiOnt.owl";
 
 
             String excelPath = "D:/BORUE/TestBenchFinalCount.xlsx";
@@ -54,40 +53,27 @@ public class Caverphone1ExcelMatcher {
 
 
 
-            OWLOntologyManager manager =
-                    OWLManager.createOWLOntologyManager();
+            OWLOntologyManager manager =   OWLManager.createOWLOntologyManager();
 
 
 
-            OWLOntology ontology =
-                    manager.loadOntologyFromOntologyDocument(
-                            new File(ontologyPath)
-                    );
+            OWLOntology ontology =  manager.loadOntologyFromOntologyDocument(new File(ontologyPath));
 
 
 
-            System.out.println(
-                    "Ontology loaded successfully"
-            );
+            System.out.println("Ontology loaded successfully");
 
 
 
-            OWLDataFactory factory =
-                    manager.getOWLDataFactory();
+            OWLDataFactory factory =  manager.getOWLDataFactory();
 
 
 
-            String baseIRI =
-                    "http://localhost:3030/BiOnt.owl#";
+            String baseIRI = "http://localhost:3030/BiOnt.owl#";
 
 
 
-            OWLDataProperty strVal =
-                    factory.getOWLDataProperty(
-                            IRI.create(
-                                    baseIRI + "strVal"
-                            )
-                    );
+            OWLDataProperty strVal =   factory.getOWLDataProperty(IRI.create(baseIRI + "strVal"));
 
 
 
@@ -440,13 +426,13 @@ public class Caverphone1ExcelMatcher {
 
 
                 Cell outputCell =
-                        row.getCell(i + 8);  // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+                        row.getCell(i + 8);  
 
 
 
                 if(outputCell == null) {
 
-                    outputCell = row.createCell(i + 8); // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+                    outputCell = row.createCell(i + 8); 
 
                 }
 

@@ -1,10 +1,7 @@
-package org.borue;
+package BORUE;
 
 
-/*
- * This class writes all roman urdu words into excel
- * so that you create PUs for them
- */
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -33,26 +30,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
 
-/*
- * RomanUrduOntologyToExcel
- *
- * PURPOSE:
- *
- * 1. Load BiOnt.owl
- * 2. Find Language_In
- * 3. Find Language_In and all its subclasses recursively
- * 4. Find individuals belonging to those classes
- * 5. Read strVal from those individuals
- * 6. Remove duplicate and empty values
- * 7. Sort the Roman Urdu words alphabetically
- * 8. Write them to a new Excel file
- *
- * IMPORTANT:
- *
- * This program DOES NOT modify the ontology.
- * It only reads the ontology and creates an Excel file.
- *
- */
+
 public class RomanUrduOntologyToExcel {
 
 
@@ -62,11 +40,6 @@ public class RomanUrduOntologyToExcel {
         try {
 
 
-            /*
-             * ---------------------------------------------------------
-             * PATHS
-             * ---------------------------------------------------------
-             */
 
             String ontologyPath = "D:/BORUE/BiOnt.owl";
 
@@ -75,11 +48,6 @@ public class RomanUrduOntologyToExcel {
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * LOAD ONTOLOGY
-             * ---------------------------------------------------------
-             */
 
             OWLOntologyManager manager =
                     OWLManager.createOWLOntologyManager();
@@ -91,39 +59,24 @@ public class RomanUrduOntologyToExcel {
                     );
 
 
-            System.out.println(
-                    "Ontology loaded successfully"
-            );
+            System.out.println("Ontology loaded successfully");
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * DATA FACTORY
-             * ---------------------------------------------------------
-             */
+            
 
             OWLDataFactory factory =
                     manager.getOWLDataFactory();
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * BASE IRI
-             * ---------------------------------------------------------
-             */
+            
 
-            String baseIRI =
-                    "http://localhost:3030/BiOnt.owl#";
+            String baseIRI = "http://localhost:3030/BiOnt.owl#";
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * strVal PROPERTY
-             * ---------------------------------------------------------
-             */
+            
 
             OWLDataProperty strVal =
                     factory.getOWLDataProperty(
@@ -134,12 +87,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * Language_In CLASS
-             * ---------------------------------------------------------
-             */
-
+            
             OWLClass languageIn =
                     factory.getOWLClass(
                             IRI.create(
@@ -149,12 +97,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * COLLECT Language_In + ALL SUBCLASSES
-             * ---------------------------------------------------------
-             */
-
+            
             Set<OWLClass> languageClasses =
                     new HashSet<OWLClass>();
 
@@ -174,12 +117,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-            /*
-             * Optional:
-             * Print classes so that we can verify what was found.
-             */
-
-            for(OWLClass cls : languageClasses) {
+        for(OWLClass cls : languageClasses) {
 
                 System.out.println(
                         "Language class: "
@@ -191,18 +129,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * EXTRACT strVal VALUES
-             * ---------------------------------------------------------
-             *
-             * HashSet is intentional.
-             *
-             * If the same strVal occurs more than once in the ontology,
-             * it will appear only once in Excel.
-             *
-             */
-
+       
             Set<String> romanUrduWords =
                     new HashSet<String>();
 
@@ -228,17 +155,11 @@ public class RomanUrduOntologyToExcel {
             );
 
 
-            System.out.println(
-                    "Reading Language_In individuals..."
-            );
+            System.out.println("Reading Language_In individuals...");
 
 
 
-            /*
-             * ---------------------------------------------------------
-             * CHECK EVERY NAMED INDIVIDUAL
-             * ---------------------------------------------------------
-             */
+            
 
             for(OWLNamedIndividual individual :
                     ontology.getIndividualsInSignature()) {
@@ -248,9 +169,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-                /*
-                 * Print progress every 500 individuals.
-                 */
+            
 
                 if(checkedIndividuals % 500 == 0) {
 
@@ -264,13 +183,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-                /*
-                 * -----------------------------------------------------
-                 * CHECK WHETHER INDIVIDUAL BELONGS TO Language_In
-                 * OR ANY OF ITS SUBCLASSES
-                 * -----------------------------------------------------
-                 */
-
+            
                 boolean isLanguageIndividual =
                         false;
 
@@ -302,10 +215,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-                /*
-                 * Ignore individuals outside Language_In hierarchy.
-                 */
-
+            
                 if(!isLanguageIndividual) {
 
                     continue;
@@ -318,18 +228,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-                /*
-                 * -----------------------------------------------------
-                 * READ ALL strVal VALUES
-                 * -----------------------------------------------------
-                 *
-                 * We deliberately read ALL strVal assertions.
-                 *
-                 * If an individual has more than one strVal,
-                 * none of them will be lost.
-                 *
-                 */
-
+            
                 EntitySearcher
                 .getDataPropertyValues(
                         individual,
@@ -346,10 +245,7 @@ public class RomanUrduOntologyToExcel {
                             .trim();
 
 
-                    /*
-                     * Ignore empty strings.
-                     */
-
+            -
                     if(value.isEmpty()) {
 
                         return;
@@ -357,11 +253,7 @@ public class RomanUrduOntologyToExcel {
                     }
 
 
-                    /*
-                     * Add to Set.
-                     *
-                     * Duplicate values are automatically ignored.
-                     */
+                    
 
                     romanUrduWords.add(
                             value
@@ -624,24 +516,13 @@ public class RomanUrduOntologyToExcel {
 
 
 
-    /*
-     * =============================================================
-     * RECURSIVELY COLLECT Language_In AND ALL SUBCLASSES
-     * =============================================================
-     *
-     * This is the same approach already working in your
-     * existing ontology classes.
-     *
-     */
     private static void collectSubClasses(
             OWLClass parent,
             OWLOntology ontology,
             Set<OWLClass> result) {
 
 
-        /*
-         * Avoid processing the same class twice.
-         */
+
 
         if(result.contains(parent)) {
 
@@ -651,11 +532,6 @@ public class RomanUrduOntologyToExcel {
 
 
 
-        /*
-         * Include the parent itself.
-         *
-         * Therefore Language_In itself is included as well.
-         */
 
         result.add(
                 parent
@@ -663,9 +539,7 @@ public class RomanUrduOntologyToExcel {
 
 
 
-        /*
-         * Find direct subclasses of this class.
-         */
+
 
         for(OWLClassExpression child :
                 ontology
@@ -675,9 +549,7 @@ public class RomanUrduOntologyToExcel {
                 .collect(Collectors.toList())) {
 
 
-            /*
-             * Only process named OWL classes.
-             */
+
 
             if(child instanceof OWLClass) {
 

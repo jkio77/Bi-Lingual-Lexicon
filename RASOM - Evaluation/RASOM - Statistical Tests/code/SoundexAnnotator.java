@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.util.HashSet;
@@ -21,10 +21,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import org.semanticweb.owlapi.search.EntitySearcher;
 
-/*
- * This class adds soundex codes in borue words
- * as object property assertion
- */
+
 public class SoundexAnnotator {
  
 
@@ -55,8 +52,7 @@ public class SoundexAnnotator {
 
 
 
-            String baseIRI =
-                    "http://localhost:3030/BiOnt.owl#";
+            String baseIRI =  "http://localhost:3030/BiOnt.owl#";
 
 
 
@@ -222,10 +218,7 @@ public class SoundexAnnotator {
 
 
 
-                /*
-                 * Remove previous soundexMeta values
-                 * if they exist
-                 */
+                
 
                 EntitySearcher
                 .getDataPropertyValues(
@@ -354,9 +347,7 @@ public class SoundexAnnotator {
 
 
 
-            /*
-             * Remove old assertions
-             */
+            
 
             manager.removeAxioms(
                     ontology,
@@ -365,9 +356,7 @@ public class SoundexAnnotator {
 
 
 
-            /*
-             * Add new assertions
-             */
+            
 
             manager.addAxioms(
                     ontology,

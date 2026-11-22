@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 
@@ -212,35 +212,13 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    private static final int OUTPUT_COLUMN_START = 8;  // // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+    private static final int OUTPUT_COLUMN_START = 8;  
 
 
 
-    private static final int TOP_K = 1919; // originally 10 but changed to 1919 maxima
+    private static final int TOP_K = 1919; 
 
 
-
-    /*
-
-     * Word metric weights.
-
-     *
-
-     * Extra candidate words:
-
-     *      A = 1
-
-     *
-
-     * Missing query words:
-
-     *      B = 2
-
-     *
-
-     * Missing query words are penalized more heavily.
-
-     */
 
     private static final double A = 1.0;
 
@@ -250,37 +228,12 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * Surface spelling penalty weight.
-
-     *
-
-     * Surface similarity is used only AFTER phonetic relevance
-
-     * has been established.
-
-     */
-
+    
     private static final double SURFACE_PENALTY_WEIGHT =  0.5;
 
 
 
-    /*
-
-     * Explicitly allowed phonetic variations.
-
-     *
-
-     * Query:    Allowed: 
-
-     * MUSM      MUSMI, MUSMYT
-
-     * Islam     lslami, lslamiyat 
-
-     * etc 
-
-     */
+    
 
     private static final String[] ALLOWED_VARIATIONS =
 
@@ -294,16 +247,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * ================================================================
-
-     * MAIN
-
-     * ================================================================
-
-     */
-
+    
     public static void main(String[] args) {
 
         try {
@@ -330,23 +274,13 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * Create Roman Metaphone encoder.
-
-             */
-
-            RomanMetaphone encoder =
+                RomanMetaphone encoder =
 
                     new RomanMetaphone();
 
 
 
-            /*
-
-             * Load ontology manager.
-
-             */
+    
 
             OWLOntologyManager manager =
 
@@ -354,17 +288,8 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * Load ontology.
-
-             */
-
-            System.out.println(
-
-                    "Loading ontology..."
-
-            );
+    
+            System.out.println("Loading ontology...");
 
 
 
@@ -382,31 +307,14 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            System.out.println(
-
-                    "Ontology loaded successfully."
-
-            );
+            System.out.println("Ontology loaded successfully.");
 
 
-
-            /*
-
-             * OWL factory.
-
-             */
-
-            OWLDataFactory factory =
-
-                    manager.getOWLDataFactory();
+            OWLDataFactory factory =  manager.getOWLDataFactory();
 
 
 
-            /*
-
-             * strVal property.
-
-             */
+            
 
             OWLDataProperty strVal =
 
@@ -426,12 +334,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * romMeta property.
-
-             */
-
+            
             OWLDataProperty romMeta =
 
                     factory.getOWLDataProperty(
@@ -450,12 +353,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * Language_In class.
-
-             */
-
+            
             OWLClass languageIn =
 
                     factory.getOWLClass(
@@ -474,11 +372,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * Collect Language_In hierarchy.
-
-             */
+            
 
             Set<OWLClass> languageClasses =
 
@@ -510,12 +404,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * Build dictionary.
-
-             */
-
+            
             List<DictionaryEntry> dictionary =
 
                     buildDictionary(
@@ -543,12 +432,6 @@ public class RomanUrduSimilarityExcelMatcher {
             );
 
 
-
-            /*
-
-             * Display allowed variations.
-
-             */
 
             System.out.println();
 
@@ -578,12 +461,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-            /*
-
-             * Process Excel.
-
-             */
-
+           
             processExcel(
 
                     EXCEL_PATH,
@@ -652,15 +530,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * ================================================================
-
-     * BUILD DICTIONARY
-
-     * ================================================================
-
-     */
+    
 
     private static List<DictionaryEntry> buildDictionary(
 
@@ -3857,268 +3727,6 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * ================================================================
-
-     * FORMAT RESULTS
-
-     * ================================================================
-
-     */
-//...........................previous formatresults
-    /*
-    private static String formatResults(
-
-            List<MatchResult> results) {
-
-
-
-        StringBuilder output =
-
-                new StringBuilder();
-
-
-
-        int rank =
-
-                1;
-
-
-
-        for (MatchResult result :
-
-                results) {
-
-
-
-            if (rank > 1) {
-
-                output.append(
-
-                        "\n\n"
-
-                );
-
-            }
-
-
-
-            output.append(
-
-                    "Rank "
-
-            );
-
-            output.append(
-
-                    rank
-
-            );
-
-            output.append(
-
-                    ": "
-
-            );
-
-            output.append(
-
-                    result.strVal
-
-            );
-
-
-
-            output.append(
-
-                    "\nromMeta: "
-
-            );
-
-            output.append(
-
-                    result.romMeta
-
-            );
-
-
-
-            output.append(
-
-                    "\nMatchType: "
-
-            );
-
-            output.append(
-
-                    result.matchTier.description
-
-            );
-
-
-
-            output.append(
-
-                    "\nExactWordMatch: "
-
-            );
-
-            output.append(
-
-                    result.exactWordCount
-
-            );
-
-
-
-            output.append(
-
-                    "\nControlledAlignment: "
-
-            );
-
-            output.append(
-
-                    result.alignmentWordCount
-
-            );
-
-
-
-            output.append(
-
-                    "\nAllowedVariation: "
-
-            );
-
-            output.append(
-
-                    result.variationWordCount
-
-            );
-
-
-
-            output.append(
-
-                    "\nExactSurface: "
-
-            );
-
-            output.append(
-
-                    result.exactSurfaceMatch
-
-            );
-
-
-
-            output.append(
-
-                    "\nSurfacePenalty: "
-
-            );
-
-            output.append(
-
-                    String.format(
-
-                            "%.6f",
-
-                            result.surfacePenalty
-
-                    )
-
-            );
-
-
-
-            output.append(
-
-                    "\nPhraseMetric: "
-
-            );
-
-            output.append(
-
-                    String.format(
-
-                            "%.6f",
-
-                            result.phraseMetric
-
-                    )
-
-            );
-
-
-
-            output.append(
-
-                    "\nWordMetric: "
-
-            );
-
-            output.append(
-
-                    String.format(
-
-                            "%.6f",
-
-                            result.wordMetric
-
-                    )
-
-            );
-
-
-
-            output.append(
-
-                    "\nSimilarityScore: "
-
-            );
-
-            output.append(
-
-                    String.format(
-
-                            "%.6f",
-
-                            result.similarityScore
-
-                    )
-
-            );
-
-
-
-            output.append(
-
-                    "\nIndividualIRI: "
-
-            );
-
-            output.append(
-
-                    result.individualIRI
-
-            );
-
-
-
-            rank++;
-
-        }
-
-
-
-        return output.toString();
-
-    }
-    */
-//.......................previous format results that exceed excel limit with formatted date..................................
 //.. .............. below is new format results, when you need to print ranks etc unhide this one 
     //..............and hide following format results back again baby
     private static String formatResults(
@@ -4133,13 +3741,7 @@ public class RomanUrduSimilarityExcelMatcher {
                 output.append(", ");
             }
 
-            /*
-             * For statistical evaluation we only need
-             * the retrieved Roman Urdu dictionary entry.
-             *
-             * Ranking is preserved because results are
-             * written in the order returned by the matcher.
-             */
+
             output.append(result.strVal);
         }
 
@@ -4148,15 +3750,6 @@ public class RomanUrduSimilarityExcelMatcher {
 //.............................new format results end here ...................    
     
 
-    /*
-
-     * ================================================================
-
-     * MATCH TIER
-
-     * ================================================================
-
-     */
 
     private enum MatchTier {
 
@@ -4233,15 +3826,6 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * ================================================================
-
-     * MATCH ANALYSIS
-
-     * ================================================================
-
-     */
 
     private static class MatchAnalysis {
 
@@ -4269,15 +3853,6 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * ================================================================
-
-     * DICTIONARY ENTRY
-
-     * ================================================================
-
-     */
 
     private static class DictionaryEntry {
 
@@ -4297,15 +3872,6 @@ public class RomanUrduSimilarityExcelMatcher {
 
 
 
-    /*
-
-     * ================================================================
-
-     * MATCH RESULT
-
-     * ================================================================
-
-     */
 
     private static class MatchResult {
 

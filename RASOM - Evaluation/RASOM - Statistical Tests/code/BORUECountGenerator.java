@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,67 +13,42 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-/*
- * this class counts number of instances of borue word which will be used in the recall 
- * calculation it is first in the chain to shoot
- */
 
 public class BORUECountGenerator {
 
-    // ============================================================
-    // FILE PATHS
-    // ============================================================
-
-    private static final String ROMAN_URDU_FILE =
-            "D:/BORUE/RomanUrduWords.xlsx";
-
-    private static final String TEST_BENCH_FILE =
-            "D:/BORUE/TestBenchFinal.xlsx";
-
-    /*
-     * A new file is produced so the original TestBenchFinal.xlsx
-     * remains untouched.
-     */
-    private static final String OUTPUT_FILE =
-            "D:/BORUE/TestBenchFinalCount.xlsx";
 
 
-    // ============================================================
-    // COLUMN HEADINGS
-    // ============================================================
+    private static final String ROMAN_URDU_FILE ="D:/BORUE/RomanUrduWords.xlsx";
 
-    private static final String ROMAN_URDU_HEADING =
-            "RomanUrduWord";
+    private static final String TEST_BENCH_FILE = "D:/BORUE/TestBenchFinal.xlsx";
 
-    private static final String BORUE_HEADING =
-            "BORUE";
-
-    private static final String COUNT_HEADING =
-            "Count";
+    
+    private static final String OUTPUT_FILE =  "D:/BORUE/TestBenchFinalCount.xlsx";
 
 
-    // ============================================================
-    // MAIN
-    // ============================================================
+    
+
+    private static final String ROMAN_URDU_HEADING = "RomanUrduWord";
+
+    private static final String BORUE_HEADING =  "BORUE";
+
+    private static final String COUNT_HEADING =  "Count";
+
+
+    
 
     public static void main(String[] args) {
 
         try {
 
-            System.out.println(
-                    "==============================================");
+            System.out.println("==============================================");
 
-            System.out.println(
-                    "BORUE Gold Relevant Count Generator");
+            System.out.println("BORUE Gold Relevant Count Generator");
 
-            System.out.println(
-                    "==============================================");
+            System.out.println("==============================================");
 
 
-            // ----------------------------------------------------
-            // STEP 1:
-            // Load all Roman Urdu dictionary entries
-            // ----------------------------------------------------
+            
 
             List<String> romanUrduWords =
                     loadRomanUrduWords(ROMAN_URDU_FILE);
@@ -86,10 +61,7 @@ public class BORUECountGenerator {
                     + romanUrduWords.size());
 
 
-            // ----------------------------------------------------
-            // STEP 2:
-            // Calculate BORUE counts
-            // ----------------------------------------------------
+            
 
             populateBORUECounts(
                     TEST_BENCH_FILE,
@@ -125,9 +97,7 @@ public class BORUECountGenerator {
     }
 
 
-    // ============================================================
-    // LOAD ALL ROMAN URDU WORDS
-    // ============================================================
+    
 
     private static List<String> loadRomanUrduWords(
             String filePath)
@@ -183,9 +153,7 @@ public class BORUECountGenerator {
                     + wordColumn);
 
 
-            // ----------------------------------------------------
-            // Read all dictionary entries
-            // ----------------------------------------------------
+    
 
             for (int rowIndex = 1;
                  rowIndex <= sheet.getLastRowNum();
@@ -235,9 +203,7 @@ public class BORUECountGenerator {
     }
 
 
-    // ============================================================
-    // POPULATE BORUE COUNT COLUMN
-    // ============================================================
+    
 
     private static void populateBORUECounts(
             String inputFile,
@@ -295,10 +261,7 @@ public class BORUECountGenerator {
             }
 
 
-            // ----------------------------------------------------
-            // Create Count column if it does not exist
-            // ----------------------------------------------------
-
+    
             if (countColumn == -1) {
 
                 countColumn =
@@ -335,9 +298,7 @@ public class BORUECountGenerator {
             int skipped = 0;
 
 
-            // ----------------------------------------------------
-            // Process every BORUE row
-            // ----------------------------------------------------
+    
 
             for (int rowIndex = 1;
                  rowIndex <= sheet.getLastRowNum();
@@ -398,11 +359,7 @@ public class BORUECountGenerator {
                         normalize(borue);
 
 
-                // ------------------------------------------------
-                // Count all dictionary entries containing BORUE
-                // as a continuous character block
-                // ------------------------------------------------
-
+    
                 int count =
                         calculateBORUECount(
                                 borue,
@@ -439,9 +396,7 @@ public class BORUECountGenerator {
             }
 
 
-            // ----------------------------------------------------
-            // Save output workbook
-            // ----------------------------------------------------
+    
 
             try (FileOutputStream fos =
                          new FileOutputStream(outputFile)) {
@@ -464,9 +419,8 @@ public class BORUECountGenerator {
     }
 
 
-    // ============================================================
-    // CALCULATE GOLD RELEVANT COUNT
-    // ============================================================
+    
+    
     private static int calculateBORUECount(
             String borue,
             List<String> romanUrduWords) {
@@ -475,42 +429,7 @@ public class BORUECountGenerator {
             return 0;
         }
 
-        /*
-         * RULES:
-         *
-         * 1. Space means the BORUE may be a compound/phrase.
-         *
-         *    Example:
-         *        ada kaar
-         *
-         *    Search "ada kaar" as one continuous block.
-         *
-         *    MATCH:
-         *        ada kaar
-         *        ada kaari
-         *        ada kaari karna
-         *        mashhoor ada kaar
-         *        ada kaar banna
-         *
-         *    NO MATCH:
-         *        ada mat kaar
-         *
-         *
-         * 2. Comma means alternative BORUE spellings.
-         *
-         *    Example:
-         *        abad,aabaad
-         *
-         *    Search "abad" separately.
-         *    Search "aabaad" separately.
-         *    Add the two counts.
-         *
-         *    Example:
-         *        abad   = 3
-         *        aabaad = 4
-         *
-         *        Total Count = 7
-         */
+    
 
         String[] alternatives = borue.split(",");
 
@@ -533,25 +452,14 @@ public class BORUECountGenerator {
                         target)) {
 
                     alternativeCount++;
-                    /*        temp addition
-                    if (target.equalsIgnoreCase("aap")) {
-                        System.out.println(
-                            "AAP DEBUG | target=[" + target
-                            + "] | dictionaryEntry=[" + dictionaryEntry + "]"
-                        );
-                    }
-                    
-                    */
+    
                      
                 }
             }
 
             totalCount += alternativeCount;
 
-            /*
-             * Print breakdown only when BORUE contains
-             * multiple comma-separated alternatives.
-             */
+    
             if (alternatives.length > 1) {
 
                 System.out.println(
@@ -564,9 +472,8 @@ public class BORUECountGenerator {
 
         return totalCount;
     }
-    // ============================================================
-    // BORUE RELEVANCE RULE
-    // ============================================================
+    
+    
 
     private static boolean containsBORUEBlock(
             String dictionaryEntry,
@@ -595,76 +502,13 @@ public class BORUECountGenerator {
         }
 
 
-        /*
-         * ========================================================
-         * RELEVANCE RULE
-         * ========================================================
-         *
-         * BORUE must occur as one CONTINUOUS CHARACTER BLOCK
-         * somewhere inside the dictionary entry.
-         *
-         * Matching is case-insensitive because both strings
-         * have already been converted to lower case.
-         *
-         *
-         * Example:
-         *
-         * BORUE:
-         *
-         *     ada kaar
-         *
-         *
-         * MATCH:
-         *
-         *     ada kaar
-         *
-         *     ada kaari
-         *
-         *     ada kaari karna
-         *
-         *     mashhoor ada kaar
-         *
-         *     ada kaar banna
-         *
-         *
-         * NO MATCH:
-         *
-         *     ada mat kaar
-         *
-         * because "ada kaar" does not occur as a continuous
-         * block in that string.
-         *
-         *
-         * Example:
-         *
-         * BORUE:
-         *
-         *     aadat
-         *
-         *
-         * MATCH:
-         *
-         *     aadat
-         *
-         *     achi aadat
-         *
-         *     buri aadat
-         *
-         *     aadati
-         *
-         *     aadat dalna
-         *
-         * ========================================================
-         */
-
+    
         return normalizedEntry.contains(
                 normalizedBORUE);
     }
 
 
-    // ============================================================
-    // NORMALIZE TEXT
-    // ============================================================
+    
 
     private static String normalize(
             String text) {
@@ -675,20 +519,7 @@ public class BORUECountGenerator {
         }
 
 
-        /*
-         * Convert to lower case.
-         *
-         * Also collapse multiple spaces so that:
-         *
-         * "ada   kaar"
-         *
-         * becomes:
-         *
-         * "ada kaar"
-         *
-         * This prevents accidental Excel spacing differences
-         * from affecting the count.
-         */
+    
 
         return text
                 .trim()
@@ -697,9 +528,7 @@ public class BORUECountGenerator {
     }
 
 
-    // ============================================================
-    // FIND COLUMN BY COLUMN HEADING
-    // ============================================================
+    
 
     private static int findColumnIndex(
             Row headerRow,

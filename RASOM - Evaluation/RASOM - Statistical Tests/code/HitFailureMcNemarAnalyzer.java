@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 
 import java.io.FileInputStream;
@@ -18,126 +18,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-//...............This is 6th step of statistical pipeline
-/**
- * ============================================================
- * HitFailureMcNemarAnalyzer
- * ============================================================
- *
- * PURPOSE
- * ------------------------------------------------------------
- *
- * Compares RASOM with each of the other 9 algorithms
- * using concept-level Hit / Failure.
- *
- *
- * DATASET
- * ------------------------------------------------------------
- *
- * NC = 2441 concepts
- *
- * NT = 10161 valid query variants per algorithm
- *
- * Each concept contains:
- *
- *      mc = 2 to 6 available spelling variants
- *
- * Empty Query cells are structural placeholders and are
- * excluded completely from the analysis.
- *
- * A genuine non-empty query with Hit = 0 remains a valid
- * observation.
- *
- *
- * CONCEPT-LEVEL HIT DEFINITION
- * ------------------------------------------------------------
- *
- * For algorithm A and concept c:
- *
- *      Concept Hit = 1
- *
- * if AT LEAST ONE of the mc available spelling variants
- * has Hit = 1.
- *
- * Otherwise:
- *
- *      Concept Hit = 0
- *
- *
- * McNEMAR TABLE
- * ------------------------------------------------------------
- *
- *                           Baseline
- *                       Hit         Fail
- *
- * Roman Hit             n11          n10
- *
- * Roman Fail            n01          n00
- *
- *
- * n10:
- * RASOM Hit, Baseline Fail
- *
- * n01:
- * RASOM Fail, Baseline Hit
- *
- *
- * TEST
- * ------------------------------------------------------------
- *
- * Continuity-corrected McNemar statistic:
- *
- *      X^2 =
- *
- *      (|n10 - n01| - 1)^2
- *      ---------------------
- *          n10 + n01
- *
- * df = 1
- *
- *
- * EFFECT SIZE
- * ------------------------------------------------------------
- *
- * Matched-pairs odds ratio:
- *
- *      OR = n10 / n01
- *
- * If either discordant cell is zero:
- *
- *      OR = (n10 + 0.5) / (n01 + 0.5)
- *
- *
- * MULTIPLE COMPARISONS
- * ------------------------------------------------------------
- *
- * RASOM is compared against 9 baselines.
- *
- * Holm correction is applied across the 9 McNemar
- * raw p-values.
- *
- *
- * INPUT
- * ------------------------------------------------------------
- *
- * F:/Eclipse/EclipseHome/DS_TestBench/
- * PhoneticEvaluation.xlsx
- *
- *
- * OUTPUT
- * ------------------------------------------------------------
- *
- * F:/Eclipse/EclipseHome/DS_TestBench/
- * HitFailureMcNemarResults.xlsx
- *
- * ============================================================
- */
+
+
 public class HitFailureMcNemarAnalyzer {
 
 
-    // ========================================================
-    // FILES
-    // ========================================================
 
     private static final String INPUT_FILE =
             "D:/BORUE/PhoneticEvaluation.xlsx";
@@ -147,9 +32,6 @@ public class HitFailureMcNemarAnalyzer {
             "D:/BORUE/HitFailureMcNemarResults.xlsx";
 
 
-    // ========================================================
-    // CONFIGURATION
-    // ========================================================
 
     private static final String REFERENCE_ALGORITHM =
             "RASOM";
@@ -171,16 +53,7 @@ public class HitFailureMcNemarAnalyzer {
             10161;
 
 
-    // ========================================================
-    // INPUT COLUMNS
-    //
-    // Zero-based Apache POI indexing
-    //
-    // A = Algorithm
-    // B = ConceptRow
-    // D = Query
-    // L = Hit
-    // ========================================================
+    
 
     private static final int ALGORITHM_COLUMN = 0;
 
@@ -195,9 +68,7 @@ public class HitFailureMcNemarAnalyzer {
             new DataFormatter();
 
 
-    // ========================================================
-    // MAIN
-    // ========================================================
+    
 
     public static void main(String[] args) {
 
@@ -222,10 +93,7 @@ public class HitFailureMcNemarAnalyzer {
             System.out.println();
 
 
-            // ------------------------------------------------
-            // Read VALID variant-level hits and aggregate
-            // them by concept.
-            // ------------------------------------------------
+            
 
             Map<String, AlgorithmData> algorithms =
                     readEvaluationFile();
@@ -287,9 +155,7 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Perform 9 paired McNemar comparisons.
-            // ------------------------------------------------
+            
 
             List<McNemarResult> results =
                     new ArrayList<McNemarResult>();
@@ -345,18 +211,12 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Holm correction across the 9 Hit comparisons.
-            // ------------------------------------------------
+            
 
             applyHolmCorrection(
                     results
             );
 
-
-            // ------------------------------------------------
-            // Print final results.
-            // ------------------------------------------------
 
             for (McNemarResult result : results) {
 
@@ -368,9 +228,7 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Write Excel.
-            // ------------------------------------------------
+            
 
             writeOutput(
                     results
@@ -428,17 +286,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // READ EVALUATION FILE
-    //
-    // CRITICAL:
-    //
-    // Empty Query rows are structural placeholders.
-    //
-    // They are excluded BEFORE concept-level Hit aggregation.
-    //
-    // Genuine non-empty queries with Hit = 0 remain included.
-    // ========================================================
+    
 
     private static Map<String, AlgorithmData>
             readEvaluationFile()
@@ -473,9 +321,7 @@ public class HitFailureMcNemarAnalyzer {
                 0;
 
 
-        // ----------------------------------------------------
-        // Skip heading row.
-        // ----------------------------------------------------
+        
 
         for (int rowNumber = 1;
              rowNumber <= sheet.getLastRowNum();
@@ -511,14 +357,7 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // CRITICAL CORRECTION
-            //
-            // Blank Query means this spelling variant does
-            // not exist for the concept.
-            //
-            // It is NOT a failed retrieval trial.
-            // ------------------------------------------------
+            
 
             String query =
                     getString(
@@ -554,9 +393,7 @@ public class HitFailureMcNemarAnalyzer {
                     );
 
 
-            // ------------------------------------------------
-            // Algorithm container.
-            // ------------------------------------------------
+            
 
             AlgorithmData algorithmData =
                     algorithms.get(
@@ -579,9 +416,7 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Concept container.
-            // ------------------------------------------------
+            
 
             ConceptHit concept =
                     algorithmData.concepts.get(
@@ -606,17 +441,12 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            // ------------------------------------------------
-            // Add VALID variant.
-            // ------------------------------------------------
+            
 
             concept.variantCount++;
 
 
-            /*
-             * Concept becomes a Hit if ANY available
-             * non-empty spelling variant has Hit = 1.
-             */
+            
 
             if (hit > 0.5) {
 
@@ -672,9 +502,7 @@ public class HitFailureMcNemarAnalyzer {
         );
 
 
-        // ----------------------------------------------------
-        // Validate algorithms and concept clusters.
-        // ----------------------------------------------------
+        
 
         for (Map.Entry<String, AlgorithmData> entry
                 : algorithms.entrySet()) {
@@ -832,9 +660,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // COMPARE RASOM WITH ONE BASELINE
-    // ========================================================
+    
 
     private static McNemarResult compareAlgorithms(
             String baselineName,
@@ -862,10 +688,6 @@ public class HitFailureMcNemarAnalyzer {
 
         int n00 = 0;
 
-
-        // ----------------------------------------------------
-        // Pair concepts using ConceptRow.
-        // ----------------------------------------------------
 
         for (Map.Entry<Integer, ConceptHit> entry
                 : romanData.concepts.entrySet()) {
@@ -994,10 +816,6 @@ public class HitFailureMcNemarAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Concept-level Hit Rates.
-        // ----------------------------------------------------
-
         if (result.pairedConcepts == 0) {
 
 
@@ -1032,10 +850,6 @@ public class HitFailureMcNemarAnalyzer {
                 result.baselineHitRate;
 
 
-        // ----------------------------------------------------
-        // Discordant pairs.
-        // ----------------------------------------------------
-
         int discordant =
                 n10 + n01;
 
@@ -1044,9 +858,7 @@ public class HitFailureMcNemarAnalyzer {
                 discordant;
 
 
-        // ----------------------------------------------------
-        // McNemar test.
-        // ----------------------------------------------------
+        
 
         if (discordant == 0) {
 
@@ -1062,13 +874,7 @@ public class HitFailureMcNemarAnalyzer {
         else {
 
 
-            /*
-             * Continuity-corrected McNemar statistic:
-             *
-             *      (|n10 - n01| - 1)^2
-             *      ---------------------
-             *          n10 + n01
-             */
+        
 
             double numerator =
                     Math.abs(
@@ -1078,10 +884,7 @@ public class HitFailureMcNemarAnalyzer {
                     1.0;
 
 
-            /*
-             * If |n10-n01| = 0, continuity correction should
-             * not create an artificial positive statistic.
-             */
+        
 
             if (numerator < 0.0) {
 
@@ -1102,21 +905,7 @@ public class HitFailureMcNemarAnalyzer {
                     discordant;
 
 
-            /*
-             * For chi-square with df = 1:
-             *
-             *      p = erfc(
-             *              sqrt(chiSquare) / sqrt(2)
-             *          )
-             *
-             * This is equivalent to:
-             *
-             *      2 * [1 - Phi(sqrt(chiSquare))]
-             *
-             * but is numerically safer for very small
-             * tail probabilities.
-             */
-
+        
             double z =
                     Math.sqrt(
                             result.chiSquare
@@ -1151,14 +940,7 @@ public class HitFailureMcNemarAnalyzer {
         }
 
 
-        // ----------------------------------------------------
-        // Matched-pairs odds ratio.
-        //
-        // OR = n10 / n01
-        //
-        // Apply 0.5 correction ONLY when either discordant
-        // cell is zero.
-        // ----------------------------------------------------
+        
 
         if (n10 == 0 || n01 == 0) {
 
@@ -1185,13 +967,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // HOLM CORRECTION
-    //
-    // One family:
-    //
-    // RASOM vs 9 baselines for concept-level Hit.
-    // ========================================================
+    
 
     private static void applyHolmCorrection(
             List<McNemarResult> results) {
@@ -1260,10 +1036,7 @@ public class HitFailureMcNemarAnalyzer {
             }
 
 
-            /*
-             * Enforce Holm monotonicity.
-             */
-
+    
             double adjusted =
                     Math.max(
                             previousAdjusted,
@@ -1304,9 +1077,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // WRITE OUTPUT
-    // ========================================================
+    
 
     private static void writeOutput(
             List<McNemarResult> results)
@@ -1490,10 +1261,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // CREATE HEADER
-    // ========================================================
-
+    
     private static void createHeader(
             Sheet sheet) {
 
@@ -1556,10 +1324,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // PRINT RESULT
-    // ========================================================
-
+    
     private static void printResult(
             McNemarResult result) {
 
@@ -1680,18 +1445,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // COMPLEMENTARY ERROR FUNCTION
-    //
-    // Numerical Recipes approximation.
-    //
-    // Used instead of:
-    //
-    //      2 * (1 - normalCDF(z))
-    //
-    // to avoid cancellation for very small tail probabilities.
-    // ========================================================
-
+    
     private static double erfc(
             double x) {
 
@@ -1768,10 +1522,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // GET STRING
-    // ========================================================
-
+    
     private static String getString(
             Row row,
             int column) {
@@ -1800,11 +1551,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // GET DOUBLE
-    //
-    // Compatible with older Apache POI version.
-    // ========================================================
+    
 
     private static double getDouble(
             Row row,
@@ -1875,9 +1622,7 @@ public class HitFailureMcNemarAnalyzer {
     }
 
 
-    // ========================================================
-    // DATA STRUCTURES
-    // ========================================================
+    
 
     private static class AlgorithmData {
 

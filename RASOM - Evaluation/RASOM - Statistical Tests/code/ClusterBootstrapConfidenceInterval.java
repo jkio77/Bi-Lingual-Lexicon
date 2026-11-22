@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,99 +16,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//...............This is 3rd step of statistical pipeline
 
-/**
- * ============================================================
- * ClusterBootstrapConfidenceInterval
- * ============================================================
- *
- * INPUT:
- *
- * 
- * PhoneticEvaluation.xlsx
- *
- * OUTPUT:
- *
- * 
- * BootstrapConfidenceIntervals.xlsx
- *
- *
- * PURPOSE
- * ------------------------------------------------------------
- *
- * Calculates 95% cluster-bootstrap confidence intervals for:
- *
- * 1. Hit Rate
- * 2. Macro Precision
- * 3. Macro Recall
- * 4. Macro F1
- *
- *
- * DATA STRUCTURE
- * ------------------------------------------------------------
- *
- * Number of concepts:
- *
- *     NC = 2441
- *
- * Total valid query variants per algorithm:
- *
- *     NT = 10161
- *
- * Each concept contains between 2 and 6 available
- * non-empty spelling variants.
- *
- * Empty Query cells are structural placeholders and are
- * excluded completely from the analysis.
- *
- *
- * CLUSTER BOOTSTRAP
- * ------------------------------------------------------------
- *
- * Concepts, rather than individual spelling variants, are
- * sampled with replacement.
- *
- * For each bootstrap replicate:
- *
- *     2441 concept clusters are sampled WITH replacement.
- *
- * Whenever a concept is selected, ALL AVAILABLE non-empty
- * spelling variants belonging to that concept enter the
- * bootstrap sample together.
- *
- * Therefore the dependence among spelling variants belonging
- * to the same concept is preserved.
- *
- *
- * BOOTSTRAP SETTINGS
- * ------------------------------------------------------------
- *
- * Replicates:
- *
- *     B = 10000
- *
- * Confidence level:
- *
- *     95%
- *
- * Percentile CI:
- *
- *     2.5th percentile
- *     97.5th percentile
- *
- * Fixed random seed:
- *
- *     20260922
- *
- * ============================================================
- */
+
+
 public class ClusterBootstrapConfidenceInterval {
 
 
-    // ========================================================
-    // CONFIGURATION
-    // ========================================================
+
 
     private static final String INPUT_FILE =
             "D:/BORUE/PhoneticEvaluation.xlsx";
@@ -125,40 +39,30 @@ public class ClusterBootstrapConfidenceInterval {
     private static final int EXPECTED_VALID_VARIANTS = 10161;
 
 
-    /*
-     * Fixed seed ensures reproducibility.
-     */
     private static final long RANDOM_SEED = 20260922L;
 
 
-    // ========================================================
-    // INPUT COLUMN NUMBERS
-    //
-    // ZERO-BASED Apache POI indexing
-    // ========================================================
 
-    private static final int ALGORITHM_COLUMN = 0;   // A
+    private static final int ALGORITHM_COLUMN = 0;   
 
-    private static final int CONCEPT_COLUMN = 1;     // B
+    private static final int CONCEPT_COLUMN = 1;     
 
-    private static final int QUERY_COLUMN = 3;       // D
+    private static final int QUERY_COLUMN = 3;       
 
-    private static final int PRECISION_COLUMN = 8;   // I
+    private static final int PRECISION_COLUMN = 8;   
 
-    private static final int RECALL_COLUMN = 9;      // J
+    private static final int RECALL_COLUMN = 9;      
 
-    private static final int F1_COLUMN = 10;         // K
+    private static final int F1_COLUMN = 10;         
 
-    private static final int HIT_COLUMN = 11;        // L
+    private static final int HIT_COLUMN = 11;        
 
 
     private static final DataFormatter DATA_FORMATTER =
             new DataFormatter();
 
 
-    // ========================================================
-    // MAIN
-    // ========================================================
+
 
     public static void main(String[] args) {
 
@@ -193,9 +97,6 @@ public class ClusterBootstrapConfidenceInterval {
             System.out.println();
 
 
-            // ------------------------------------------------
-            // Read evaluation data.
-            // ------------------------------------------------
 
             Map<String, AlgorithmData> algorithms =
                     readEvaluationFile();
@@ -217,9 +118,6 @@ public class ClusterBootstrapConfidenceInterval {
             }
 
 
-            // ------------------------------------------------
-            // Create output workbook.
-            // ------------------------------------------------
 
             XSSFWorkbook outputWorkbook =
                     new XSSFWorkbook();
@@ -237,11 +135,6 @@ public class ClusterBootstrapConfidenceInterval {
 
 
             int outputRow = 1;
-
-
-            // ------------------------------------------------
-            // Process every algorithm independently.
-            // ------------------------------------------------
 
             for (Map.Entry<String, AlgorithmData> entry
                     : algorithms.entrySet()) {
@@ -306,9 +199,7 @@ public class ClusterBootstrapConfidenceInterval {
                 }
 
 
-                // --------------------------------------------
-                // Original observed estimates.
-                // --------------------------------------------
+                
 
                 MetricValues observed =
                         calculateObservedMetrics(
@@ -316,9 +207,7 @@ public class ClusterBootstrapConfidenceInterval {
                         );
 
 
-                // --------------------------------------------
-                // Bootstrap.
-                // --------------------------------------------
+                
 
                 BootstrapResult bootstrap =
                         performBootstrap(
@@ -327,9 +216,7 @@ public class ClusterBootstrapConfidenceInterval {
                         );
 
 
-                // --------------------------------------------
-                // Write four metric rows.
-                // --------------------------------------------
+                
 
                 outputRow =
                         writeMetricResult(
@@ -376,9 +263,7 @@ public class ClusterBootstrapConfidenceInterval {
             }
 
 
-            // ------------------------------------------------
-            // Freeze header.
-            // ------------------------------------------------
+            
 
             outputSheet.createFreezePane(
                     0,
@@ -386,10 +271,7 @@ public class ClusterBootstrapConfidenceInterval {
             );
 
 
-            // ------------------------------------------------
-            // Auto-size columns.
-            // ------------------------------------------------
-
+            
             for (int column = 0;
                  column < 7;
                  column++) {
@@ -400,9 +282,7 @@ public class ClusterBootstrapConfidenceInterval {
             }
 
 
-            // ------------------------------------------------
-            // Save output.
-            // ------------------------------------------------
+            
 
             FileOutputStream output =
                     new FileOutputStream(
@@ -452,11 +332,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // READ MASTER EVALUATION FILE
-    //
-    // Empty Query rows are excluded completely.
-    // ========================================================
+    
 
     private static Map<String, AlgorithmData>
             readEvaluationFile()
@@ -488,7 +364,7 @@ public class ClusterBootstrapConfidenceInterval {
         int blankQueryRowsSkipped = 0;
 
 
-        // Row 0 contains headings.
+        
 
         for (int rowNumber = 1;
              rowNumber <= sheet.getLastRowNum();
@@ -520,15 +396,7 @@ public class ClusterBootstrapConfidenceInterval {
             }
 
 
-            // ------------------------------------------------
-            // CRITICAL CORRECTION:
-            //
-            // Blank Query means no spelling variant exists
-            // in this structural slot.
-            //
-            // It is NOT a failed retrieval trial.
-            // ------------------------------------------------
-
+           
             String query =
                     getString(
                             row,
@@ -581,9 +449,7 @@ public class ClusterBootstrapConfidenceInterval {
                     );
 
 
-            // ------------------------------------------------
-            // Algorithm container.
-            // ------------------------------------------------
+            
 
             AlgorithmData algorithmData =
                     algorithms.get(
@@ -605,9 +471,7 @@ public class ClusterBootstrapConfidenceInterval {
             }
 
 
-            // ------------------------------------------------
-            // Concept cluster.
-            // ------------------------------------------------
+            
 
             ConceptCluster concept =
                     algorithmData.concepts.get(
@@ -631,9 +495,7 @@ public class ClusterBootstrapConfidenceInterval {
             }
 
 
-            // ------------------------------------------------
-            // Store one VALID spelling-variant observation.
-            // ------------------------------------------------
+            
 
             VariantMetric variant =
                     new VariantMetric();
@@ -699,9 +561,7 @@ public class ClusterBootstrapConfidenceInterval {
         );
 
 
-        // ----------------------------------------------------
-        // Validate concept clusters.
-        // ----------------------------------------------------
+        
 
         validateClusters(
                 algorithms
@@ -712,12 +572,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // VALIDATE CLUSTERS
-    //
-    // Each concept is expected to contain between 2 and 6
-    // available non-empty spelling variants.
-    // ========================================================
+    
 
     private static void validateClusters(
             Map<String, AlgorithmData> algorithms) {
@@ -822,9 +677,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // COUNT VALID VARIANTS
-    // ========================================================
+    
 
     private static int countVariants(
             AlgorithmData data) {
@@ -846,12 +699,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // CALCULATE ORIGINAL OBSERVED METRICS
-    //
-    // These are variant-level macro estimates over all
-    // NT = 10161 valid query variants.
-    // ========================================================
+    
 
     private static MetricValues calculateObservedMetrics(
             AlgorithmData data) {
@@ -936,9 +784,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // PERFORM CONCEPT-LEVEL CLUSTER BOOTSTRAP
-    // ========================================================
+    
 
     private static BootstrapResult performBootstrap(
             String algorithm,
@@ -971,9 +817,7 @@ public class ClusterBootstrapConfidenceInterval {
                 );
 
 
-        // ----------------------------------------------------
-        // Bootstrap replicates.
-        // ----------------------------------------------------
+        
 
         for (int replicate = 0;
              replicate < BOOTSTRAP_REPLICATES;
@@ -1097,9 +941,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // WRITE ONE METRIC RESULT
-    // ========================================================
+    
 
     private static int writeMetricResult(
             Sheet sheet,
@@ -1222,15 +1064,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // PERCENTILE
-    //
-    // Linear interpolation:
-    //
-    // position = (p / 100) * (n - 1)
-    //
-    // Same convention as descriptive-statistics class.
-    // ========================================================
+    
 
     private static double percentile(
             double[] values,
@@ -1320,9 +1154,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // MEAN OF ARRAY
-    // ========================================================
+    
 
     private static double mean(
             double[] values) {
@@ -1349,11 +1181,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // SAMPLE STANDARD DEVIATION
-    //
-    // Bootstrap SD is reported as bootstrap standard error.
-    // ========================================================
+    
 
     private static double sampleStandardDeviation(
             double[] values) {
@@ -1397,9 +1225,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // CREATE OUTPUT HEADER
-    // ========================================================
+      
 
     private static void createHeader(
             Sheet sheet) {
@@ -1434,9 +1260,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // GET STRING
-    // ========================================================
+    
 
     private static String getString(
             Row row,
@@ -1463,11 +1287,7 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // GET DOUBLE
-    //
-    // Older Apache POI API retained for compatibility.
-    // ========================================================
+    
 
     private static double getDouble(
             Row row,
@@ -1531,16 +1351,11 @@ public class ClusterBootstrapConfidenceInterval {
     }
 
 
-    // ========================================================
-    // DATA STRUCTURES
-    // ========================================================
-
+    
     private static class AlgorithmData {
 
 
-        /*
-         * Key = ConceptRow from column B.
-         */
+    
         Map<Integer, ConceptCluster> concepts =
                 new LinkedHashMap<Integer, ConceptCluster>();
     }

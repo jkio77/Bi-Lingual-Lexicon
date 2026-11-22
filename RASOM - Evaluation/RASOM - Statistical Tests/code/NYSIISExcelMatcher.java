@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -427,14 +427,14 @@ public class NYSIISExcelMatcher {
 
 
                 Cell outputCell =
-                        row.getCell(i + 8); // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+                        row.getCell(i + 8); 
 
 
 
                 if(outputCell == null) {
 
                     outputCell =
-                            row.createCell(i + 8); // Originally it was 6 here but due to inclo BORUE column i made it 7 and then made 8 after inclusion of count column
+                            row.createCell(i + 8); 
  
                 }
 

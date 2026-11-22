@@ -1,9 +1,4 @@
-/*
- * This class will bring all english words for an ontology word and english words for direct synonyms
- */
-//.................4th in CLQE
-
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,21 +37,17 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 
 public class CLQEOntologyExpansion {
 
-    // =====================================================
-    // FILE PATHS
-    // =====================================================
+    
 
     private static final String ONTOLOGY_PATH ="D:/BORUE/BiOnt.owl";
 
-    private static final String DIRECTORY = "D:/BORUE/CLQE test/";
+    private static final String DIRECTORY = "D:/BORUE/";
 
     private static final String INPUT_FILE =   DIRECTORY + "NewTestBenchSort_Updated.xlsx";
 
     private static final String OUTPUT_FILE =   DIRECTORY + "NewTestBenchSort_Expanded.xlsx";
 
-    // =====================================================
-    // ONTOLOGY CONFIGURATION
-    // =====================================================
+    
 
     private static final String BASE_IRI = "http://localhost:3030/BiOnt.owl#";
 
@@ -64,9 +55,7 @@ public class CLQEOntologyExpansion {
 
     private static final String STR_VAL_PROPERTY =   "strVal";
 
-    // =====================================================
-    // EXCEL COLUMNS
-    // =====================================================
+    
 
     private static final String[] RESULT_COLUMNS = {
             "res_var1",
@@ -95,9 +84,7 @@ public class CLQEOntologyExpansion {
             "Hit_common"
     };
 
-    // =====================================================
-    // INSTANCE VARIABLES
-    // =====================================================
+    
 
     private final OWLOntology ontology;
     private final OWLDataProperty strVal;
@@ -114,9 +101,7 @@ public class CLQEOntologyExpansion {
     private final Map<String, List<String>> expansionCache =
             new HashMap<String, List<String>>();
 
-    // =====================================================
-    // CONSTRUCTOR
-    // =====================================================
+    
 
     private CLQEOntologyExpansion(
             OWLOntology ontology,
@@ -131,9 +116,7 @@ public class CLQEOntologyExpansion {
         identifyRelations();
     }
 
-    // =====================================================
-    // STEP 1: BUILD ROMAN URDU INDEX
-    // =====================================================
+    
 
     private void buildRomanIndex(OWLDataFactory factory) {
 
@@ -207,9 +190,7 @@ public class CLQEOntologyExpansion {
                 + romanIndex.size());
     }
 
-    // =====================================================
-    // STEP 2: IDENTIFY ONTOLOGY RELATIONS
-    // =====================================================
+    
 
     private void identifyRelations() {
 
@@ -246,9 +227,7 @@ public class CLQEOntologyExpansion {
                 + synonymProperties.size());
     }
 
-    // =====================================================
-    // GET STRVAL VALUES
-    // =====================================================
+    
 
     private List<String> values(
             OWLNamedIndividual individual) {
@@ -270,9 +249,7 @@ public class CLQEOntologyExpansion {
         return result;
     }
 
-    // =====================================================
-    // GET DIRECT RELATION TARGETS
-    // =====================================================
+    
 
     private List<OWLNamedIndividual> targets(
             OWLNamedIndividual source,
@@ -296,9 +273,7 @@ public class CLQEOntologyExpansion {
         return result;
     }
 
-    // =====================================================
-    // GET ENGLISH VALUES FROM AN INDIVIDUAL
-    // =====================================================
+    
 
     private void collectEnglish(
             OWLNamedIndividual roman,
@@ -320,9 +295,7 @@ public class CLQEOntologyExpansion {
         }
     }
 
-    // =====================================================
-    // STEP 3: EXPAND ROMAN URDU WORD
-    // =====================================================
+    
 
     private List<String> expand(String romanWord) {
 
@@ -346,10 +319,10 @@ public class CLQEOntologyExpansion {
             return empty;
         }
 
-        // A: Direct English relations
+        
         collectEnglish(roman, englishTerms);
 
-        // B: Direct Roman Urdu synonyms
+        
         for (OWLObjectProperty property : synonymProperties) {
 
             List<OWLNamedIndividual> synonyms =
@@ -357,12 +330,12 @@ public class CLQEOntologyExpansion {
 
             for (OWLNamedIndividual synonym : synonyms) {
 
-                // English relations of direct synonym
+        
                 collectEnglish(synonym, englishTerms);
             }
         }
 
-        // No recursive synonym traversal
+        
         List<String> result =
                 new ArrayList<String>(englishTerms);
 
@@ -371,9 +344,7 @@ public class CLQEOntologyExpansion {
         return result;
     }
 
-    // =====================================================
-    // EXACT ENGLISH HIT CHECK
-    // =====================================================
+    
 
     private static boolean isHit(
             String englishTranslated,
@@ -388,7 +359,7 @@ public class CLQEOntologyExpansion {
 
         for (String expansion : expansions) {
 
-            // Treat each expansion as one English term
+            
             if (expansion.trim()
                     .toLowerCase(Locale.ROOT)
                     .equals(expected)) {
@@ -400,9 +371,7 @@ public class CLQEOntologyExpansion {
         return false;
     }
 
-    // =====================================================
-    // EXCEL UTILITIES
-    // =====================================================
+
 
     private static String cellText(
             Row row,
@@ -502,10 +471,7 @@ public class CLQEOntologyExpansion {
         return newIndex;
     }
 
-    // =====================================================
-    // STEP 4: PROCESS EXCEL
-    // =====================================================
-
+    
 private void processExcel() throws Exception {
 
     DataFormatter formatter = new DataFormatter();
@@ -527,7 +493,7 @@ private void processExcel() throws Exception {
         Map<String, Integer> columns =
                 readHeaders(header, formatter);
 
-        // English_Translated must exist in input
+        
         int englishColumn =
                 requireColumn(columns, "English_Translated");
 
@@ -557,11 +523,11 @@ private void processExcel() throws Exception {
                 continue;
             }
 
-            // Read English translation from input
+            
             String englishTranslated =
                     cellText(row, englishColumn, formatter);
 
-            // Explicitly preserve English_Translated
+            
             setText(row, englishColumn, englishTranslated);
 
             for (int j = 0; j < 6; j++) {
@@ -653,9 +619,7 @@ private void processExcel() throws Exception {
     System.out.println("PROCESS COMPLETED SUCCESSFULLY");
 }
 
-    // =====================================================
-    // MAIN
-    // =====================================================
+    
 
     public static void main(String[] args) throws Exception {
 

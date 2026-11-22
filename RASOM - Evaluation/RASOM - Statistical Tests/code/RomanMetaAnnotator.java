@@ -1,4 +1,4 @@
-package org.borue;
+package BORUE;
 
 import java.io.File;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 
 public class RomanMetaAnnotator {
 
-	//............this class adds romMeta assertion for all roman urdu words 
+
     public static void main(String[] args) {
 
 
@@ -286,9 +286,7 @@ public class RomanMetaAnnotator {
 
 
 
-            /*
-             * Add all assertions at once
-             */
+            
 
             System.out.println(
                     "Adding axioms to ontology..."
@@ -309,9 +307,7 @@ public class RomanMetaAnnotator {
 
 
 
-            /*
-             * Save back into SAME ontology file
-             */
+            
 
             System.out.println(
                     "Saving ontology..."

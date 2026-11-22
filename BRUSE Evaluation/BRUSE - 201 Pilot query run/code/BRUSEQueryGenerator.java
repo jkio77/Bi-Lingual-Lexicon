@@ -1,5 +1,5 @@
-package org.borue;
-// this file generates query in Roman → English → Urdu format 
+package BORUE;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -33,14 +33,10 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
-/**
- * BRUSE expansion using existing RuMetA results, but NO RuMetA matching.
- * Compatible with the OWLAPI EntitySearcher style used in
- * RomanUrduSimilarityExcelMatcher.java and Apache POI XSSF.
- */
+
 public class BRUSEQueryGenerator {
 
-    // Adjust these three paths for your computer.
+    
     private static final String ONTOLOGY_PATH = "D:/BORUE/BiOnt.owl";
     private static final String EXCEL_PATH = "D:/BORUE/BRUSE_TEST.xlsx";
     private static final String OUTPUT_PATH = "D:/BORUE/BRUSE_TEST_Expanded.xlsx";
@@ -90,7 +86,7 @@ public class BRUSEQueryGenerator {
             }
             if (!isRoman) continue;
             for (String value : values(individual, strVal)) {
-                // Keep the first IRI deterministically if duplicate strVal exists.
+                
                 if (!romanByStrVal.containsKey(value)) romanByStrVal.put(value, individual);
             }
         }
@@ -133,7 +129,7 @@ public class BRUSEQueryGenerator {
         Set<String> seenSynonyms = new HashSet<String>();
         Set<String> seenEnglish = new HashSet<String>();
 
-        // Iterate properties deterministically; never traverse a target's own relations.
+        
         List<OWLObjectProperty> properties = new ArrayList<OWLObjectProperty>(
                 ontology.getObjectPropertiesInSignature());
         Collections.sort(properties, Comparator.comparing(p -> p.getIRI().toString()));
@@ -153,7 +149,7 @@ public class BRUSEQueryGenerator {
                 String label = firstValue(target, strVal);
                 if (label.isEmpty()) continue;
                 if (synonym) {
-                    // Only a direct isSynFor target. No semantic-similarity expansion.
+                    
                     if (seenSynonyms.add(label)) relations.synonyms.add(label);
                 } else {
                     if (seenEnglish.add(label)) {
@@ -178,7 +174,7 @@ public class BRUSEQueryGenerator {
         addTerm(terms, common);
         for (int i = 0; i < r.synonyms.size() && i < limit; i++)
             addTerm(terms, r.synonyms.get(i));
-        // Pick up to 'limit' English individuals; Urdu is paired to the picked ones.
+        
         List<String> urdu = new ArrayList<String>();
         for (int i = 0; i < r.english.size() && i < limit; i++) {
             EnglishEntry e = r.english.get(i);
@@ -236,13 +232,13 @@ public class BRUSEQueryGenerator {
                 String common = cellText(row, commonCol, formatter);
                 if (common.isEmpty()) continue;
                 String ranked = cellText(row, resultsCol, formatter);
-                // First comma-separated RuMetA result is lookup key ONLY.
+                
                 String lookup = ranked.isEmpty() ? "" : ranked.split(",", 2)[0].trim();
                 OWLNamedIndividual individual = generator.romanByStrVal.get(lookup);
                 Relations r;
                 if (individual == null) {
                     unmatched++;
-                    r = new Relations(); // preserve original word, no invented expansion
+                    r = new Relations(); 
                     System.out.println("NO LEXICAL MATCH row " + (i + 1) + ": " + lookup);
                 } else {
                     matched++;
