@@ -495,7 +495,7 @@ private void processExcel() throws Exception {
 
         
         int englishColumn =
-                requireColumn(columns, "English_Translated");
+                requireColumn(columns, "EnglishTranslated");
 
         int[] resultIndexes = new int[6];
         int[] expansionIndexes = new int[6];

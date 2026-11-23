@@ -12,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class CLQEHitAnalysis {
 
-    private static final String DIRECTORY =  "D:\\BORUE\\CLQE test\\";
+    private static final String DIRECTORY =  "D:\\BORUE\\";
 
     private static final String INPUT_FILE =  DIRECTORY + "NewTestBenchSort_Expanded.xlsx";
 

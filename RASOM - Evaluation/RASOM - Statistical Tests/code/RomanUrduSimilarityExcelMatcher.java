@@ -190,7 +190,7 @@ public class RomanUrduSimilarityExcelMatcher {
 
     private static final String EXCEL_PATH = "D:/BORUE/TestBenchFinalCount.xlsx";
 
-    private static final String OUTPUT_PATH = "D:/BORUE/Rumeta_Result.xlsx";
+    private static final String OUTPUT_PATH = "D:/BORUE/RASOM_Result.xlsx";
 
     private static final String BASE_IRI =  "http://localhost:3030/BiOnt.owl#";
 

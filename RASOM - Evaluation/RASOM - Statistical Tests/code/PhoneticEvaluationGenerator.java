@@ -74,8 +74,8 @@ public class PhoneticEvaluationGenerator {
         ),
 
         new AlgorithmFile(
-                "RomanMetaphone",
-                BASE_PATH + "Rumeta_Result.xlsx"
+                "RASOM",
+                BASE_PATH + "RASOM_Result.xlsx"
         )
     };
 

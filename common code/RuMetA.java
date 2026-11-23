@@ -1,4 +1,4 @@
-package org.coas.ui.bean;
+package BORUE;
 
 public class RuMetA {
 

@@ -13,11 +13,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class RumetaResultTransfer {
+public class RASOMResultTransfer {
 
     private static final String DIRECTORY = "D:\\BORUE\\";
 
-    private static final String SOURCE_FILE = DIRECTORY + "Rumeta_Result.xlsx";
+    private static final String SOURCE_FILE = DIRECTORY + "RASOM_Result.xlsx";
 
     private static final String TARGET_FILE = DIRECTORY + "NewTestBenchSort.xlsx";
 

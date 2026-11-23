@@ -1,4 +1,4 @@
-package borue;
+package BORUE;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
