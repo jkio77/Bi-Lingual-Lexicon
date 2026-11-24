@@ -16,3 +16,7 @@ This repository provides the source code, ontology, experimental artifacts, and 
 **Step 4 - BRUSE Evaluation** <br>
 1. Read 'Detailed eval docu BRUSE.docx' inside BRUSE - Evaluation. <br>
 2. Run files as per detailed documents for reproducibility/ verification. <br>
+
+
+**Importan Note** <br>
+PLEASE READ COMMON CODE > TECHNOLOGY STACK SETTINGS.DOCX BEFORE CONDUCTING EXPERIMENTS

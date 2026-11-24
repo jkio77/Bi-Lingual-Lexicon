@@ -3,6 +3,7 @@
 #######...............Final run clqe
 # CLQE Semantic Translation Coverage — final V2 Jupyter cell
 # Install once in Jupyter: %pip install openpyxl openai
+## aval in Cell 6 of Bruse_eval.ipynb so can be run from there
 import os, re, json, time, random, hashlib, tempfile
 from pathlib import Path
 from getpass import getpass
