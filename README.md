@@ -8,7 +8,7 @@ This repository provides the source code, ontology, experimental artifacts, and 
 This folder has the implementation of BORUE (named as BiOnt.owl) and input files for various java / python classes. This folder has to be copied at location D:\BORUE\ 
 for seamless code exection.  <br>
 **2. Common Code** <br>
-This folder has following main implemenation classes that can run independently. There are short videos showing the experimental run on author system.
+This folder has following main implemenation classes that can run independently. There are short videos showing the experimental run on author system. <br>
 **a. RuMetA.java** (Roman Urdu phonetic encoding). <br>
 **b. RASOM.java** (Rule-based Approximate String-to-Ontology Matching). <br>
 **c. BRUSE.java** (ontology-driven multilingual semantic query expansion). <br> 
